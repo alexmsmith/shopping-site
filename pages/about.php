@@ -10,7 +10,7 @@
 			.item3 { grid-area: main; background-color: lightgreen; border-radius: 2px; }
 			.item4 { grid-area: right; background-color: lightgreen; border-radius: 2px; }
 			.item5 { grid-area: footer; background-color: lightgreen; border-radius: 2px; }
-			
+
 			.grid-container {
 				display: grid;
 				grid:
@@ -52,25 +52,7 @@
 				</ul>
 			</div>
 			<div class="item3">
-				<p class="ex1"><!--<img src="../face.jpg" alt="smiley_face">-->This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThisThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
+				<p class="ex1">
 			</p>
 			</div>
 			<div class="item4"></div>
@@ -82,18 +64,18 @@
 		function ampm() {
 			var now = new Date();
 			var hours = now.getHours();
-			
+
 			if(hours > 12) {
 				return "pm";
 			}else {
 				return "am";
 			}
 		}
-	
+
 		function printTime() {
 			//Grabs current date/time
 			var now = new Date();
-			
+
 			var day = now.getDate();
 			var month = now.getMonth();
 			var year = now.getFullYear();
