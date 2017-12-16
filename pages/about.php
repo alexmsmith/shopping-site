@@ -53,7 +53,7 @@
 			</div>
 			<div class="item3">
 				<p class="ex1">
-			</p>
+				</p>
 			</div>
 			<div class="item4"></div>
 			<div class="item5"></div>
