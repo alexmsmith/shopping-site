@@ -52,7 +52,7 @@
 				</ul>
 			</div>
 			<div class="item3">
-				<p class="ex1">
+				<p class="ex1">This is the about page
 				</p>
 			</div>
 			<div class="item4"></div>
