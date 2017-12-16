@@ -1,0 +1,75 @@
+body {
+	background-color: #c0cce2;
+}
+h1 {
+	font-size:42px;
+	font-family:Calisto MT;
+	color: #333;
+	border-radius:4px;
+	text-align:left;
+	padding-bottom:4px;
+	margin-bottom:10px;
+}
+div.canvas {
+	background-color:white;
+	border-radius:3px;
+	border:2px solid green; 
+	margin:auto;
+	margin-top:10px;
+	width:1200px;
+	height:1000px;
+}
+#logo {
+	width:58px;
+	height:58px;
+	z-index:-1;
+}
+img {
+	float:left;
+}
+#shop_cart {
+	width:46px;
+	height:41px;
+	float:right;
+	padding:4px;
+	margin-right:10px;
+}
+p.ex1 {
+	text-align:center;
+	font-size:16px;
+	color:black;
+	margin-left:10px;
+	padding:2px;
+	letter-spacing:1px;
+	line-height:1.8;
+}
+ul {
+	
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	background-color: #333;
+	border-radius:4px;
+	
+	/*margin: 0 auto;
+	white-space: nowrap; */
+}
+li {
+	float:left;
+	font-size:18px;
+	border-right: 1px solid #bbb;
+}
+li a {
+	display:block;
+	color:white;
+	text-align:center;
+	padding: 14px 16px;
+	text-decoration:none;
+}
+li a:hover {
+	background-color: #111;
+}
+.active {
+	background-color: #4CAF50;
+}
