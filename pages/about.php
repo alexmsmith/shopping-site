@@ -5,11 +5,11 @@
 		<link rel="stylesheet" type="text/css" href="../css.css" />
 		<style>
 			<!-- Grid Layout -->
-			.item1 { grid-area: header; background-color: lightgreen; }
-			.item2 { grid-area: menu; background-color: lightgreen; }
-			.item3 { grid-area: main; background-color: lightgreen; border-radius: 2px; }
-			.item4 { grid-area: right; background-color: lightgreen; border-radius: 2px; }
-			.item5 { grid-area: footer; background-color: lightgreen; border-radius: 2px; }
+			.item1 { grid-area: header; background-color: #d5deef; }
+			.item2 { grid-area: menu; background-color: #d5deef; }
+			.item3 { grid-area: main; background-color: #d5deef; border-radius: 2px; }
+			.item4 { grid-area: right; background-color: #d5deef; border-radius: 2px; }
+			.item5 { grid-area: footer; background-color: #d5deef; border-radius: 2px; }
 
 			.grid-container {
 				display: grid;

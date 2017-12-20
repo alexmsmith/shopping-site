@@ -1,61 +1,162 @@
+<?php
+session_start();
+
+$connect = mysqli_connect('localhost', 'root', '', 'shopping');
+if(isset($_POST['add_to_cart'])) {
+	if(isset($_SESSION['shopping_cart'])) {
+		$item_array_id = array_column($_SESSION['shopping_cart'], 'item_id');
+		if(!in_array($_GET['id'], $item_array_id)) {
+			$count = count($_SESSION['shopping_cart']);
+			$item_array = array(
+					'item_id'               =>     $_GET["id"],
+          'item_name'               =>     $_POST["hidden_name"],
+          'item_price'          =>     $_POST["hidden_price"],
+          'item_quantity'          =>     $_POST["quantity"]
+			);
+			$_SESSION['shopping_cart'][$count] = $item_array;
+		}
+		else {
+			echo '<script>alert("Item Already Added")</script>';
+			echo '<script>window.location="shopping.php"</script>';
+		}
+	}
+	else {
+			$item_array = array(
+      	'item_id'               =>     $_GET["id"],
+        'item_name'               =>     $_POST["hidden_name"],
+        'item_price'          =>     $_POST["hidden_price"],
+        'item_quantity'          =>     $_POST["quantity"]
+      );
+      $_SESSION["shopping_cart"][0] = $item_array;
+	}
+}
+if(isset($_GET["action"]))
+{
+     if($_GET["action"] == "delete")
+     {
+          foreach($_SESSION["shopping_cart"] as $keys => $values)
+          {
+               if($values["item_id"] == $_GET["id"])
+               {
+                    unset($_SESSION["shopping_cart"][$keys]);
+                    echo '<script>alert("Item Removed")</script>';
+                    echo '<script>window.location="basket.php"</script>';
+               }
+          }
+     }
+}
+?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Online Store - Shopping</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="../css.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<style>
 			<!-- Grid Layout -->
-			.item1 { grid-area: header; background-color: lightgreen; }
-			.item2 { grid-area: menu; background-color: #d5deef; }
+			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
+			.item2 { grid-area: menu; background-color: #d5deef; border-radius: 2px; }
 			.item3 { grid-area: main; background-color: #d5deef; border-radius: 2px; }
-			.item4 { grid-area: right; background-color: #d5deef; border-radius: 2px; }
-			.item5 { grid-area: footer; background-color: #d5deef; border-radius: 2px; }
-			
+			.item4 { grid-area: footer; background-color: #c0cce2; border-radius: 2px; }
+
 			.grid-container {
 				display: grid;
 				grid:
 					'header header header header header header'
 					'menu menu menu menu menu menu'
-					'main main main main right right'
+					'main main main main main main'
 					'footer footer footer footer footer footer';
-				grid-gap: 8px;
-				margin: auto;
-				
-				/*background-color: #2196F3;*/
-			}
-			#time {
-				font-size: 16px;
-				text-align: left;
-				padding: 2px;
-				margin: 0;
-			}
-			
-			#shop_table {
-				margin:auto;
-				margin-top:20px;
-				margin-bottom:20px;
-			}
-			#item {
-				border-radius: 4px;
-				padding: 4px;
-				background-color: #f2f3f4;
-			}
-			#item_image {
-				width: 276px;
-				height: 276px;
-			}
-			#descrip_entry {
-				width: 276px;
-			}
-			
+					grid-gap: 10px;
+					margin-top: -10px;
+					text-align: center;
+				}
+
+				.container {
+					border-radius: 4px;
+					margin: auto;
+					width: 1400px;
+				}
+				.col-md-4 {
+					width: 666px;
+					float: left;
+				}
+
+				#store {
+					border: 2px solid #c0cce2;
+					border-radius: 4px;
+					padding: 6px;
+				}
+				#store td {
+					background-color: #c0cce2;
+					text-align: center;
+					padding: 8px;
+					border-radius: 4px;
+					height: 251px;
+				}
+
 		</style>
+		<script type="text/javascript">
+		//Basic clock
+			function ampm() {
+				var now = new Date();
+				var hours = now.getHours();
+
+				if(hours > 12) {
+					return "pm";
+				}else {
+					return "am";
+				}
+			}
+
+			// If hours, minutes or seconds hits 0, change to 00
+			function secondsZero() {
+				var now = new Date();
+				var seconds = now.getSeconds();
+				if(seconds < 10){
+					return '0'+seconds;
+				}else {
+					return seconds;
+				}
+			}
+			function hoursZero() {
+				var now = new Date();
+				var hours = now.getHours();
+				if(hours < 10){
+					return '0'+hours;
+				}else {
+					return hours;
+				}
+			}
+			function minutesZero() {
+				var now = new Date();
+				var minutes = now.getMinutes();
+				if(minutes < 10){
+					return '0'+minutes;
+				}else {
+					return minutes;
+				}
+			}
+
+			function printTime() {
+				//Grabs current date/time
+				var now = new Date();
+				var day = now.getDate();
+				var month = now.getMonth();
+				var year = now.getFullYear();
+				//Format data
+				document.getElementById("time").innerHTML = day + "/" + month + "/" + year + " - " +
+															hoursZero() + ":" + minutesZero() + ":" + secondsZero() + " " + ampm();
+			}
+			setInterval("printTime()");
+			setInterval("printTime()", 1000);
+		</script>
 	</head>
 	<body>
 		<div class="grid-container">
-			<div class="item1"></div>
-			<div class="item2">
-				<h1><img src="../logo.png" alt="logo" id="logo"><i>Shopping Website</i></h1>
-				<p id="time"></p>
+			<div class="item1">
 				<ul>
 					<li><a href="home.php">Home</a></li>
 					<li><a class="active" href="shopping.php">Shopping</a></li>
@@ -66,95 +167,73 @@
 					<li style="float:right"><a href="calculate.php">Calculator</a></li>
 				</ul>
 			</div>
-			<div class="item3">
-				<table id="shop_table">
-				<tr>
-					<td id="item"><img id="item_image" src="../images/item_1.jpg" alt="item_1">
-						<p style="text-align:center" id="descrip_entry">This is a collection of games belonging to the SEGA Mega Drive.<br /><br /><b>£25.99</b>
-							<br /><br /><button type="button" value="sega">Add to basket</button>
-						</p>
-					</td>
-					<td id="item"><img id="item_image" src="../images/item_2.jpg" alt="item_2">
-						<p style="text-align:center" id="descrip_entry">Harvest Moon is a rare game and must be purchased by your very good self.<br /><br /><b>£14.99</b>
-							<br /><br /><button type="button" value="harvest moon">Add to basket</button>
-						</p>
-					</td>
-					<td id="item"><img id="item_image" src="../images/item_3.jpg" alt="item_3">
-						<p style="text-align:center" id="descrip_entry">Crash Bandicoot 2 for the PS1 is an amazing game, get it now!<br /><br /><b>£9.99</b>
-							<br /><br /><button type="button" value="crash">Add to basket</button>
-						</p>
-					</td>
-					<td id="item"><img id="item_image" src="../images/item_4.jpg" alt="item_4">
-						<p style="text-align:center" id="descrip_entry">Game case is the best case for gaming in a gaming environment.<br /><br /><b>£6.99</b>
-							<br /><br /><button type="button" value="game case">Add to basket</button>
-						</p>
-					</td>
-				</tr>
-			</table>
-			<table id="shop_table">
-				<tr>
-					<td id="item"><img id="item_image" src="../images/item_1.jpg" alt="item_1">
-						<p style="text-align:center" id="descrip_entry">This is a collection of games belonging to the SEGA Mega Drive.<br /><br /><b>£25.99</b>
-							<br /><br /><button type="button" value="sega">Add to basket</button>
-						</p>
-					</td>
-					<td id="item"><img id="item_image" src="../images/item_2.jpg" alt="item_2">
-						<p style="text-align:center" id="descrip_entry">Harvest Moon is a rare game and must be purchased by your very good self.<br /><br /><b>£14.99</b>
-							<br /><br /><button type="button" value="harvest moon">Add to basket</button>
-						</p>
-					</td>
-					<td id="item"><img id="item_image" src="../images/item_3.jpg" alt="item_3">
-						<p style="text-align:center" id="descrip_entry">Crash Bandicoot 2 for the PS1 is an amazing game, get it now!<br /><br /><b>£9.99</b>
-							<br /><br /><button type="button" value="crash">Add to basket</button>
-						</p>
-					</td>
-					<td id="item"><img id="item_image" src="../images/item_4.jpg" alt="item_4">
-						<p style="text-align:center" id="descrip_entry">Game case is the best case for gaming in a gaming environment.<br /><br /><b>£6.99</b>
-							<br /><br /><button type="button" value="game case">Add to basket</button>
-						</p>
-					</td>
-				</tr>
-			</table>
+		</br>
+			<div class="item2">
+				<h1><img src="../logo.png" alt="logo" id="logo"><i>Shopping Website</i></h1>
+				<div id="welcome">
+					<!-- Logged in user information -->
+					<?php if (isset($_SESSION['username'])) : ?>
+							<p style="float:right">
+								Welcome <strong><?php echo $_SESSION['username']; ?></strong>
+								<a href="home.php?logout='1'" style="color: red;">Logout</a>
+							</p>
+					<?php endif ?>
+					<p id="time"></p>
+				</div>
+
 			</div>
-			<div class="item4"></div>
-			<div class="item5">
-				<p class="ex1"><!--<img src="face.jpg" alt="Smiley Face">-->This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-					This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-					This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-					This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-					This is a paragraphThis is a paragraphThis is a paragraphThis is a paragraph
-				</p>
+			<div class="item3">
+				<br />
+
+          <div class="container">
+
+               <!-- <h3 align="center">Simple PHP Mysql Shopping Cart</h3><br /> -->
+               <?php
+
+               $query = "SELECT * FROM tbl_product ORDER BY id ASC";
+               $result = mysqli_query($connect, $query);
+               if(mysqli_num_rows($result) > 0)
+               {
+                    while($row = mysqli_fetch_array($result))
+                    {
+               ?>
+               <form method="post" action="shopping.php?action=add&id=<?php echo $row["id"]; ?>">
+							 		<div class="col-md-4" style="padding:16px;">
+                    	<table id="store">
+													<tr>
+															<td id="img">
+																<!-- Display product images -->
+																<img src="<?php echo $row["img"]; ?>" id="product_image" />
+															</td>
+													</tr>
+													<tr>
+														<td>
+															<h3><?php echo $row["name"]; ?></h3>
+															<p class="text-info">
+																<?php echo $row["description"]; ?></br></br>
+																<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
+																Quantity: <input type="text" name="quantity" class="form-control" value="1" /></br></br>
+																<input type="submit" name="add_to_cart" class="btn btn-success" value="Add to Cart" />
+															</p>
+														</td>
+													</tr>
+											</table>
+												<input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
+												<input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>" />
+                  </div>
+               </form>
+               <?php
+                    }
+               }
+               ?>
+               <div style="clear:both"></div>
+               <br />
+          </div>
+          <br />
+			</div>
+			<div class="item4">
+				Footer
 			</div>
 		</div>
 	</body>
-	<script type="text/javascript">
-	//Basic clock
-		function ampm() {
-			var now = new Date();
-			var hours = now.getHours();
-			
-			if(hours > 12) {
-				return "pm";
-			}else {
-				return "am";
-			}
-		}
-	
-		function printTime() {
-			//Grabs current date/time
-			var now = new Date();
-			
-			var day = now.getDate();
-			var month = now.getMonth();
-			var year = now.getFullYear();
-			var hours = now.getHours();
-			var minutes = now.getMinutes();
-			var seconds = now.getSeconds();
-			//Format data
-			document.getElementById("time").innerHTML = day + "/" + month + "/" + year + " - " +
-														hours + ":" + minutes + ":" + seconds + " " + ampm();
-		}
-		setInterval("printTime()");
-		setInterval("printTime()", 1000);
-	</script>
 </html>
