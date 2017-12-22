@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 $connect = mysqli_connect('localhost', 'root', '', 'shopping');
 if(isset($_POST['add_to_cart'])) {
 	if(isset($_SESSION['shopping_cart'])) {
@@ -49,7 +50,7 @@ if(isset($_GET["action"]))
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Online Store - Shopping</title>
+		<title>The-Tech-Store - Store</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="../css.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -58,9 +59,9 @@ if(isset($_GET["action"]))
 		<style>
 			<!-- Grid Layout -->
 			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
-			.item2 { grid-area: menu; background-color: #d5deef; border-radius: 4px; margin-top: 10px; }
-			.item3 { grid-area: main; background-color: #d5deef; border-radius: 4px; }
-			.item4 { grid-area: footer; background-color: #d5deef; border-radius: 4px; }
+			.item2 { grid-area: menu; margin-top: 24px; }
+			.item3 { grid-area: main; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
+			.item4 { grid-area: footer; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
 
 			.grid-container {
 				display: grid;
@@ -82,7 +83,6 @@ if(isset($_GET["action"]))
 					width: 666px;
 					float: left;
 				}
-
 				#store {
 					border-radius: 4px;
 					padding: 6px;
@@ -100,8 +100,36 @@ if(isset($_GET["action"]))
 					font-family: Agency FB;
 					font-size: 18px;
 				}
+				#btn-success {
+					transition-duration: 0.4s;
+					border-radius: 7px;
+					background-color: #c0cce2;
+					color: black;
+					padding: 6px;
+					font-family: Cambria;
+				}
+				#btn-success:hover {
+					background-color: #4CAF50;
+					color: white;
+				}
 				h3 {
 					font-family: Agency FB;
+				}
+				#search {
+					float: right;
+					width: 160%;
+					box-sizing: border-box;
+					border: 2px solid #ccc;
+					border-radius: 6px;
+					font-size: 14px;
+					background-color: white;
+					background-image: url('../images/search.png');
+					background-position: 9px 6px;
+					background-repeat: no-repeat;
+					opacity: 0.6;
+					padding: 8px 16px 8px 36px;
+					margin-left: 15px;
+					margin-top: 8px;
 				}
 
 		</style>
@@ -174,21 +202,25 @@ if(isset($_GET["action"]))
 			</ul>
 		</br>
 			<div class="item2">
-				<h1><img src="../images/circuit_board_logo.png" alt="logo" id="logo"><i>Techno Solutions</i></h1>
-				<div id="welcome">
+				<p id="time" style="font-family: Cambria;"></p>
+				<h1><img src="../images/circuit_board_logo.png" alt="logo" id="logo"><i>The-Tech-Store<span style="font-size: 24px;">.co.uk</span></i>
+					<form style="float: right;">
+						<input id="search" type="text" name="search" placeholder="Search.."/>
+					</form>
+				</h1>
+
+				<div id="welcome" style="float :right;">
 					<!-- Logged in user information -->
 					<?php if (isset($_SESSION['username'])) : ?>
-							<p style="float:right; font-size: 18px;">
+							<p style="font-size: 18px; font-family: Cambria;">
 								Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
 								<b><a href="home.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
 							</p>
 					<?php endif ?>
-					<p id="time"></p>
 				</div>
 
 			</div>
 			<div class="item3">
-				<br />
 
           <div class="container">
 
@@ -216,7 +248,7 @@ if(isset($_GET["action"]))
 																	<?php echo $row["description"]; ?></br></br>
 																	<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
 																	Quantity: <input type="text" name="quantity" class="form-control" value="1" /></br></br>
-																	<input type="submit" name="add_to_cart" class="btn btn-success" value="Add to Cart" />
+																	<input type="submit" name="add_to_cart" id="btn-success" value="Add to Cart" />
 																</p>
 															</td>
 													</tr>
