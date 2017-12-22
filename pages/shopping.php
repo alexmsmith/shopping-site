@@ -58,9 +58,9 @@ if(isset($_GET["action"]))
 		<style>
 			<!-- Grid Layout -->
 			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
-			.item2 { grid-area: menu; background-color: #d5deef; border-radius: 2px; }
-			.item3 { grid-area: main; background-color: #d5deef; border-radius: 2px; }
-			.item4 { grid-area: footer; background-color: #c0cce2; border-radius: 2px; }
+			.item2 { grid-area: menu; background-color: #d5deef; border-radius: 4px; margin-top: 10px; }
+			.item3 { grid-area: main; background-color: #d5deef; border-radius: 4px; }
+			.item4 { grid-area: footer; background-color: #d5deef; border-radius: 4px; }
 
 			.grid-container {
 				display: grid;
@@ -73,7 +73,6 @@ if(isset($_GET["action"]))
 					margin-top: -10px;
 					text-align: center;
 				}
-
 				.container {
 					border-radius: 4px;
 					margin: auto;
@@ -85,16 +84,24 @@ if(isset($_GET["action"]))
 				}
 
 				#store {
-					border: 2px solid #c0cce2;
 					border-radius: 4px;
 					padding: 6px;
 				}
-				#store td {
-					background-color: #c0cce2;
-					text-align: center;
-					padding: 8px;
-					border-radius: 4px;
-					height: 251px;
+				#img {
+					padding-right: 10px;
+				}
+				#imgContent {
+					/* background-color: #c0cce2; */
+					border-bottom: 4px solid #c0cce2;
+					border-radius: 6px;
+					padding: 10px;
+				}
+				#text-info {
+					font-family: Agency FB;
+					font-size: 18px;
+				}
+				h3 {
+					font-family: Agency FB;
 				}
 
 		</style>
@@ -156,26 +163,24 @@ if(isset($_GET["action"]))
 	</head>
 	<body>
 		<div class="grid-container">
-			<div class="item1">
-				<ul>
-					<li><a href="home.php">Home</a></li>
-					<li><a class="active" href="shopping.php">Shopping</a></li>
-					<li><a href="about.php">About</a></li>
-					<li><a href="contact.php">Contact</a></li>
-					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
-					<li style="float:right"><a href="login.php">Log-in/Sign-up</a></li>
-					<li style="float:right"><a href="calculate.php">Calculator</a></li>
-				</ul>
-			</div>
+			<ul>
+				<li><a href="home.php">Home</a></li>
+				<li><a class="active" href="shopping.php">Shopping</a></li>
+				<li><a href="about.php">About</a></li>
+				<li><a href="contact.php">Contact</a></li>
+				<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
+				<li style="float:right"><a href="login.php">Log-in/Sign-up</a></li>
+				<li style="float:right"><a href="calculate.php">Calculator</a></li>
+			</ul>
 		</br>
 			<div class="item2">
-				<h1><img src="../logo.png" alt="logo" id="logo"><i>Shopping Website</i></h1>
+				<h1><img src="../images/circuit_board_logo.png" alt="logo" id="logo"><i>Techno Solutions</i></h1>
 				<div id="welcome">
 					<!-- Logged in user information -->
 					<?php if (isset($_SESSION['username'])) : ?>
-							<p style="float:right">
-								Welcome <strong><?php echo $_SESSION['username']; ?></strong>
-								<a href="home.php?logout='1'" style="color: red;">Logout</a>
+							<p style="float:right; font-size: 18px;">
+								Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
+								<b><a href="home.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
 							</p>
 					<?php endif ?>
 					<p id="time"></p>
@@ -205,17 +210,15 @@ if(isset($_GET["action"]))
 																<!-- Display product images -->
 																<img src="<?php echo $row["img"]; ?>" id="product_image" />
 															</td>
-													</tr>
-													<tr>
-														<td>
-															<h3><?php echo $row["name"]; ?></h3>
-															<p class="text-info">
-																<?php echo $row["description"]; ?></br></br>
-																<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
-																Quantity: <input type="text" name="quantity" class="form-control" value="1" /></br></br>
-																<input type="submit" name="add_to_cart" class="btn btn-success" value="Add to Cart" />
-															</p>
-														</td>
+															<td id="imgContent">
+																<h3><?php echo $row["name"]; ?></h3>
+																<p id="text-info">
+																	<?php echo $row["description"]; ?></br></br>
+																	<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
+																	Quantity: <input type="text" name="quantity" class="form-control" value="1" /></br></br>
+																	<input type="submit" name="add_to_cart" class="btn btn-success" value="Add to Cart" />
+																</p>
+															</td>
 													</tr>
 											</table>
 												<input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
