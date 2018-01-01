@@ -2,25 +2,20 @@
 session_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<title>The-Tech-Store/Calculator</title>
+		<title>The-Tech-Store - Home</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="../css.css">
-		<!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<style>
-			/* Place Grid Layout in external style sheet */
 			<!-- Grid Layout -->
 			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
 			.item2 { grid-area: menu; margin-top: 24px; }
-			.item3 { grid-area: main; }
+			.item3 { grid-area: main; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
 			.item4 { grid-area: footer; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
-
 			.grid-container {
 				display: grid;
 				grid:
@@ -32,58 +27,19 @@ session_start();
 					margin-top: -10px;
 					text-align: center;
 				}
-				/* Media query (Iphone 7 & 8 Plus)*/
-				@media screen and (max-width: 414px){
-					#container {
-						border-radius: 4px;
-		        margin: auto;
-		        background-color: rgba(213,222,239,0.6); border-radius: 4px;
-		        width: 414px;
-					}
-					#heading-three {
-	          font-size: 22px;
-	        }
-					#heading-one {
-						font-size: 22px;
-						width: 400px;
-						margin-top: 48px;
-					}
-					#logo {
-						margin-top: 2px;
-						margin-right: 5px;
-		      	width: 58px;
-		      	height: 58px;
-		      	z-index: -1;
-		      }
-					#listHome a {
-						margin-left: 0px;
-					}
-					#shop_cart {
-						width: 38px;
-						height: 33px;
-						margin-top: 9px;
-						margin-left: 16px;
-						margin-bottom: 5px;
-					}
-					#welcome {
-						margin-top: 15px;
-						margin-right: 15px;
-						margin-left: 5px;
-					}
-					#welcome p {
-						font-size: 16px;
-						font-family: Cambria;
-						color: #5d6470;
-					}
+				#text-info {
+					font-family: Agency FB;
+					font-size: 18px;
+				}
+				h3 {
+					font-family: Agency FB;
 				}
 		</style>
-		<!-- Add date/time script to external JS script -->
 		<script type="text/javascript">
 		//Basic clock
 			function ampm() {
 				var now = new Date();
 				var hours = now.getHours();
-
 				if(hours > 12) {
 					return "pm";
 				}else {
@@ -118,24 +74,6 @@ session_start();
 					return minutes;
 				}
 			}
-			function days() {
-				var now = new Date();
-				var day = now.getDate();
-				if(day < 10) {
-					return '0'+day;
-				}else {
-					return day;
-				}
-			}
-			function months() {
-				var now = new Date();
-				var month = now.getMonth();
-				if(month < 10) {
-					return '0'+(month+1);
-				}else {
-					return month;
-				}
-			}
 			function printTime() {
 				//Grabs current date/time
 				var now = new Date();
@@ -143,7 +81,7 @@ session_start();
 				var month = now.getMonth();
 				var year = now.getFullYear();
 				//Format data
-				document.getElementById("time").innerHTML = days() + "/" + months() + "/" + year + " - " +
+				document.getElementById("time").innerHTML = day + "/" + month + "/" + year + " - " +
 															hoursZero() + ":" + minutesZero() + ":" + secondsZero() + " " + ampm();
 			}
 			setInterval("printTime()");
@@ -164,39 +102,39 @@ session_start();
     	<div class="collapse navbar-collapse" id="myNavbar">
       	<ul class="nav navbar-nav">
         	<li id="listHome"><a href="home.php">Home</a></li>
-        	<li id="menuItem"><a href="shopping.php">Shopping</a></li>
+        	<li class="active"><a href="shopping.php">Shopping</a></li>
         	<li id="menuItem"><a href="about.php">About</a></li>
 					<li id="menuItem"><a href="contact.php">Contact</a></li>
       	</ul>
       	<ul class="nav navbar-nav navbar-right">
-					<li id="menuItem" class="active"><a href="calculate.php">Calculator</a></li>
+					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
 					<li id="menuItem"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
 					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
-					<div id="welcome" style="float: right;">
-						<!-- Logged in user information -->
-						<?php if (isset($_SESSION['username'])) : ?>
-								<p>
-									Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
-									<b><a href="home.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
-								</p>
-						<?php endif ?>
-					</div>
       	</ul>
     	</div>
   	</div>
 	</nav>
-	<div class="grid-container">
-		</br>
-			<div class="item2" style="margin-top: 50px;">
-				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
-				<img src="../images/circuit_board_logo.png" alt="logo" id="logo">
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i></h1>
+		<div class="grid-container">
+			</br>
+			<div class="item2">
+				<p id="time" style="font-family: Cambria;"></p>
+				<h1><img src="../images/circuit_board_logo.png" alt="logo" id="logo"><i>The-Tech-Store<span style="font-size: 24px;">.co.uk</span></i></h1>
+				<div id="welcome" style="float :right;">
+					<!-- Logged in user information -->
+					<?php if (isset($_SESSION['username'])) : ?>
+							<p style="font-size: 18px; font-family: Cambria;">
+								Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
+								<b><a href="logout.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
+							</p>
+					<?php endif ?>
+				</div>
+
 			</div>
 			<div class="item3">
-          <div id="container">
-						sadasdsada
-          </div>
-          <br />
+				<br />
+
+
+        <br />
 			</div>
 			<div class="item4">
 				Footer
@@ -204,3 +142,11 @@ session_start();
 		</div>
 	</body>
 </html>
+<?php
+// Logout
+if (isset($_GET['logout'])) {
+		session_destroy();
+		unset($_SESSION['username']);
+		header('location: logout.php');
+}
+?>

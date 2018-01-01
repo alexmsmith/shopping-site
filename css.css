@@ -3,14 +3,18 @@ body {
 	background-repeat: repeat-y;
 	background-color: #c0cce2;
 }
-h1 {
+#heading-one {
 	font-size: 42px;
 	font-family: Agency FB;
 	color: #5d6470;
 	text-align: left;
 	margin-bottom: -10px;
 	letter-spacing: 2px;
-	width: 45%;
+	width: 55%;
+}
+#heading-three {
+	font-family: Agency FB;
+	font-size: 22px;
 }
 #logo {
 	margin-top: -10px;
@@ -21,58 +25,63 @@ h1 {
 	float: left;
 }
 #shop_cart {
-	width: 37px;
-	height: 32px;
-	float: right;
-	padding: 4px;
-	margin-right: 4px;
+	width: 38px;
+	height: 33px;
+	margin-top: 9px;
+	margin-right: 14px;
+	margin-left: 6px;
 }
 #time {
 	font-size: 16px;
 	text-align: left;
 	padding: 4px 10px;
-	margin: 0;
+	margin-bottom: 10px;
 }
 #welcome {
-	padding: 0;
-	margin-top: -12px;
+	margin-top: 15px;
+	margin-right: 15px;
+	margin-left: 5px;
 }
 #welcome p {
-	padding-right: 12px;
-	margin: 0;
-}
-ul {
-	list-style-type: none;
-	margin-left: 34px;
-	margin-top: 1px;
-	padding: 0;
-	/* The CSS overflow property controls what happens to content that is too big to fit into an area. */
-	/* The overflow is clipped, and the rest of the content will be invisible */
-	overflow: hidden;
-	background-color: #333;
-	position: fixed;
-	width:95%;
-	opacity: 0.8;
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-}
-li {
-	float: left;
-	border-right: 1px solid #bbb;
-}
-li a {
-	font-family: Cambria;
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 11px 13px;
-	text-decoration: none;
 	font-size: 16px;
+	font-family: Cambria;
+	color: #5d6470;
 }
-li a:hover {
-	transition-duration: 0.4s;
-	background-color: #111;
+.active a {
+
 }
-.active {
-	background-color: #4CAF50;
+#menuItem a:hover {
+	background-color: lightgreen;
+	transition-duration: 0.6s;
+	color: black;
+}
+#listHome a {
+	margin-left: -15px;
+}
+#listHome a:hover {
+	background-color: lightgreen;
+	transition-duration: 0.6s;
+	color: black;
+}
+#container {
+	border-radius: 4px;
+	margin: auto;
+	background-color: rgba(213,222,239,0.6);
+	width: 1730px;
+}
+#text-info {
+	font-family: Agency FB;
+	font-size: 18px;
+}
+#search {
+	width: 500px;
+	box-sizing: border-box;
+	border: 2px solid #ccc;
+	border-radius: 6px;
+	font-size: 16px;
+	background-image: url('images/search.png');
+	background-position: 9px 6px;
+	background-repeat: no-repeat;
+	padding: 8px 16px 8px 36px;
+	margin-top: 8px;
 }
