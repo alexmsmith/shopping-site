@@ -1,3 +1,6 @@
+<!--
+Calculator script still incomplete
+-->
 <?php
 session_start();
 ?>
@@ -13,6 +16,8 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<!-- Calculator script -->
+		<script src="CalculatorScript.js"></script>
 		<style>
 			/* Place Grid Layout in external style sheet */
 			<!-- Grid Layout -->
@@ -75,6 +80,9 @@ session_start();
 						font-family: Cambria;
 						color: #5d6470;
 					}
+					#search {
+		        display: none;
+		      }
 				}
 		</style>
 		<!-- Add date/time script to external JS script -->
@@ -190,11 +198,45 @@ session_start();
 			<div class="item2" style="margin-top: 50px;">
 				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
 				<img src="../images/circuit_board_logo.png" alt="logo" id="logo">
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i></h1>
+				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i>
+					<form style="float: right;">
+						<input id="search" type="text" name="search" placeholder="Search.."/>
+					</form>
+				</h1>
 			</div>
 			<div class="item3">
           <div id="container">
-						sadasdsada
+						<input type="text" id="result"><br /><br />
+			<div>
+				<table id="myTable">
+					<tr>
+						<td><button id="zero" value="0" onclick="changeText(this.id)">0</button></td>
+						<td><button id="one" value="1" onclick="changeText(this.id)">1</button></td>
+						<td><button id="two" value="2" onclick="changeText(this.id)">2</button></td>
+						<td><button id="plus" value="+" onclick="calculate(this.id)">+</button></td>
+					</tr>
+					<tr>
+						<td><button id="three" value="3" onclick="changeText(this.id)">3</button></td>
+						<td><button id="four" value="4" onclick="changeText(this.id)">4</button></td>
+						<td><button id="five" value="5" onclick="changeText(this.id)">5</button></td>
+						<td><button id="minus" value="-" onclick="calculate(this.id)">-</button></td>
+					</tr>
+					<tr>
+						<td><button id="six" value="6" onclick="changeText(this.id)">6</button></td>
+						<td><button id="seven" value="7" onclick="changeText(this.id)">7</button></td>
+						<td><button id="eight" value="8" onclick="changeText(this.id)">8</button></td>
+						<td><button id="times" value="*" onclick="calculate(this.id)">*</button></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><button id="nine" value="9" onclick="changeText(this.id)">9</button></td>
+						<td></td>
+						<td><button id="divide" value="/" onclick="calculate(this.id)">/</button></td>
+					</tr>
+					<tr>
+						<td><button id="equals" value="=" onclick="equals(this.id)">=</button></td>
+					</tr>
+				</table>
           </div>
           <br />
 			</div>

@@ -38,10 +38,11 @@ include('server.php');
 					padding-top: 20px;
 					border: 1px solid grey;
 					border-radius: 6px;
+					margin-left: 60px;
 				}
 				.text-box {
 					width: 1300px;
-					margin-left: 340px;
+					margin-left: 400px;
 					margin-top: -280px;
 				}
 				/* Media query (Iphone 7 & 8 Plus)*/
@@ -92,6 +93,23 @@ include('server.php');
 						font-size: 16px;
 						font-family: Cambria;
 						color: #5d6470;
+					}
+					#search {
+		        display: none;
+		      }
+					#logForm {
+						width: 100%;
+						text-align: center;
+						padding-top: 20px;
+						border: 1px solid grey;
+						border-radius: 6px;
+						margin-left: 0px;
+					}
+					.text-box {
+						width: 98%;
+						margin: auto;
+						margin-top: 20px;
+						margin-left: 0px;
 					}
 				}
 		</style>
@@ -208,7 +226,11 @@ include('server.php');
 			<div class="item2" style="margin-top: 50px;">
 				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
 				<img src="../images/circuit_board_logo.png" alt="logo" id="logo">
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i></h1>
+				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i>
+					<form style="float: right;">
+						<input id="search" type="text" name="search" placeholder="Search.."/>
+					</form>
+				</h1>
 			</div>
 			<div class="item3">
 				<div id="container">
@@ -218,10 +240,10 @@ include('server.php');
 						<fieldset>
 							<legend>Login</legend><br/>
 							<label>Username</label><br/>
-							<input type="text" name="username"/><br/><br/>
+							<input type="text" name="username" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
 							<label>Password</label><br/>
-							<input type="password" name="password"/><br/><br/>
-							<button type="submit" name="login">Login</button>
+							<input type="password" name="password" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
+							<button type="submit" name="login" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>>Login</button>
 							<p>Not a member? <a href="register.php">Sign up</a></p>
 						</fieldset>
 					</form>
@@ -249,41 +271,6 @@ include('server.php');
 						operations (managing databases, tables, columns, relations, indexes, users,
 						permissions, etc) can be performed via the user interface, while you still
 						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
 						</p>
 					</div>
 				</div>
@@ -294,3 +281,8 @@ include('server.php');
 		</div>
 	</body>
 </html>
+<?php
+	if(isset($_SESSION['username'])) { ?>
+		<script>alert("You've already logged in.");</script>
+	<?php }
+?>

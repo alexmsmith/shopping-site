@@ -75,6 +75,9 @@ session_start();
 						font-family: Cambria;
 						color: #5d6470;
 					}
+					#search {
+		        display: none;
+		      }
 				}
 		</style>
 		<!-- Add date/time script to external JS script -->
@@ -190,7 +193,11 @@ session_start();
 			<div class="item2" style="margin-top: 50px;">
 				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
 				<img src="../images/circuit_board_logo.png" alt="logo" id="logo">
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i></h1>
+				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i>
+					<form style="float: right;">
+						<input id="search" type="text" name="search" placeholder="Search.."/>
+					</form>
+				</h1>
 			</div>
 			<div class="item3">
           <div id="container">

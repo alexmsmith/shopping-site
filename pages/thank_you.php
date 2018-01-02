@@ -1,10 +1,16 @@
 <?php
 session_start();
+// Logout
+if (isset($_GET['logout'])) {
+		session_destroy();
+		unset($_SESSION['username']);
+		header('location: home.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>The-Tech-Store/Contact</title>
+		<title>The-Tech-Store/Home</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="../css.css">
@@ -166,10 +172,10 @@ session_start();
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       	<ul class="nav navbar-nav">
-        	<li id="listHome"><a href="home.php">Home</a></li>
+        	<li id="listHome" class="active"><a href="home.php">Home</a></li>
         	<li id="menuItem"><a href="shopping.php">Shopping</a></li>
         	<li id="menuItem"><a href="about.php">About</a></li>
-					<li id="menuItem" class="active"><a href="contact.php">Contact</a></li>
+					<li id="menuItem"><a href="contact.php">Contact</a></li>
       	</ul>
       	<ul class="nav navbar-nav navbar-right">
 					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
@@ -199,60 +205,11 @@ session_start();
 					</form>
 				</h1>
 			</div>
+
 			<div class="item3">
-          <div id="container">
-						<!-- Reference: http://www.freecontactform.com/email_form.php -->
-						<form name="contactform" method="post" action="send_form_email.php">
-							<table width="450px">
-								<tr>
- 									<td valign="top">
-  									<label for="first_name">First Name *</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="first_name" maxlength="50" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="last_name">Last Name *</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="last_name" maxlength="50" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="email">Email Address *</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="email" maxlength="80" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="telephone">Telephone Number</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="telephone" maxlength="30" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="comments">Comments *</label>
- 									</td>
- 									<td valign="top">
-  									<textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
- 									</td>
-								</tr>
-								<tr>
- 									<td colspan="2" style="text-align:center">
-  									<input type="submit" value="Submit">
- 									</td>
-								</tr>
-							</table>
-						</form>
-          </div>
-          <br />
+				<div id="container" style="padding-top: 20px;">
+					<h3>Thank you for contacting us. We will be in touch with you very soon.</h3>
+				</div>
 			</div>
 			<div class="item4">
 				Footer
