@@ -15,7 +15,7 @@ session_start();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<style>
 			/* Place Grid Layout in external style sheet */
-			<!-- Grid Layout -->
+			 Grid Layout
 			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
 			.item2 { grid-area: menu; margin-top: 24px; }
 			.item3 { grid-area: main; }
@@ -32,6 +32,24 @@ session_start();
 					margin-top: -10px;
 					text-align: center;
 				}
+				#container {
+					padding-top: 20px;
+					border-radius: 4px;
+					margin: auto;
+					background-color: rgba(213,222,239,0.6);
+					/*width: 1730px;*/
+					height: 1200px;
+				}
+				#contactTable {
+					width: 488px;
+					height: 500px;
+					margin: auto;
+					background-color: rgba(73, 86, 107, 0.2);
+					border-radius: 6px;
+				}
+				#contactTable td {
+					padding-left: 4px;
+				}
 				/* Media query (Iphone 7 & 8 Plus)*/
 				@media screen and (max-width: 414px){
 					#container {
@@ -39,6 +57,17 @@ session_start();
 		        margin: auto;
 		        background-color: rgba(213,222,239,0.6); border-radius: 4px;
 		        width: 414px;
+					}
+					#contactTable {
+						width: 390px;
+						height: 500px;
+						margin: auto;
+						background-color: rgba(73, 86, 107, 0.2);
+						border-radius: 6px;
+						font-size: 11px;
+					}
+					#contactTable td {
+						padding-right: 6px;
 					}
 					#heading-three {
 	          font-size: 22px;
@@ -200,58 +229,71 @@ session_start();
 				</h1>
 			</div>
 			<div class="item3">
-          <div id="container">
-						<!-- Reference: http://www.freecontactform.com/email_form.php -->
-						<form name="contactform" method="post" action="send_form_email.php">
-							<table width="450px">
-								<tr>
- 									<td valign="top">
-  									<label for="first_name">First Name *</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="first_name" maxlength="50" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="last_name">Last Name *</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="last_name" maxlength="50" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="email">Email Address *</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="email" maxlength="80" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="telephone">Telephone Number</label>
- 									</td>
- 									<td valign="top">
-  									<input  type="text" name="telephone" maxlength="30" size="30">
- 									</td>
-								</tr>
-								<tr>
- 									<td valign="top">
-  									<label for="comments">Comments *</label>
- 									</td>
- 									<td valign="top">
-  									<textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
- 									</td>
-								</tr>
-								<tr>
- 									<td colspan="2" style="text-align:center">
-  									<input type="submit" value="Submit">
- 									</td>
-								</tr>
-							</table>
-						</form>
-          </div>
+           <div id="container">
+						 <h2 id="heading-two" style="margin-top: 0px;">Contact-Us</h3>
+						 	<p id="text-info" style="color: black;">If you would like to contact us regarding a query, please
+							 use the following options below:
+							</p>
+							<p id="text-info" style="color: black;"><strong>Contact Number:</strong> (+44) (0)7478277969</p>
+
+							<p id="text-info" style="color: black;"><strong>Drop us an e-mail:</strong></p>
+
+							<!-- Reference: http://www.freecontactform.com/email_form.php -->
+ 					 		<form name="contactform" method="post" action="send_form_email.php">
+ 								<table id="contactTable">
+ 									<tr>
+ 	 									<td>
+											<label for="first_name" id="text-info">First Name :</label>
+ 	 									</td>
+										<td>
+											<input type="text" name="first_name" maxlength="50" size="30"
+												style="float: left; margin-left: 8px; border-radius: 4px;">
+										</td>
+ 									</tr>
+ 									<tr>
+ 	 									<td>
+											<label for="last_name" id="text-info">Last Name :</label>
+ 	 									</td>
+										<td>
+											<input type="text" name="last_name" maxlength="50" size="30"
+												style="float: left; margin-left: 8px; border-radius: 4px;">
+										</td>
+ 									</tr>
+ 									<tr>
+ 	 									<td>
+											<label for="email" id="text-info">Email Address :</label>
+ 	 									</td>
+										<td>
+											<input type="text" name="email" maxlength="80" size="30"
+												style="float: left; margin-left: 8px; border-radius: 4px;">
+										</td>
+ 									</tr>
+ 									<tr>
+ 	 									<td>
+											<label for="telephone" id="text-info">Telephone Number :</label>
+ 	 									</td>
+										<td>
+											<input type="text" name="telephone" maxlength="30" size="30"
+												style="float: left; margin-left: 8px; border-radius: 4px;">
+										</td>
+ 									</tr>
+ 									<tr>
+ 	 									<td>
+											<label for="comments" id="text-info">Comments :</label>
+ 	 									</td>
+										<td>
+											<textarea name="comments" maxlength="1000" cols="45" rows="15"
+												style="resize: none ; border-radius: 4px;"></textarea>
+										</td>
+ 									</tr>
+ 									<tr>
+ 	 									<td colspan="2" style="text-align:center;">
+ 	  									<input type="submit" value="Submit" style="border-radius: 4px;">
+ 	 									</td>
+ 									</tr>
+ 								</table>
+ 						</form>
+           </div>
           <br />
 			</div>
 			<div class="item4">

@@ -208,7 +208,7 @@ if (isset($_GET['logout'])) {
 
 			<div class="item3">
 				<div id="container" style="padding-top: 20px;">
-					<h3>Thank you for contacting us. We will be in touch with you very soon.</h3>
+					<h1 id="heading-two">Thank you for contacting us. We will be in touch with you very soon.</h3>
 				</div>
 			</div>
 			<div class="item4">

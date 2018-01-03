@@ -12,6 +12,10 @@ body {
 	letter-spacing: 2px;
 	width: 55%;
 }
+#heading-two {
+	font-family: Agency FB;
+	font-size: 26px;
+}
 #heading-three {
 	font-family: Agency FB;
 	font-size: 22px;

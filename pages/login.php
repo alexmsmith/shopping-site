@@ -1,14 +1,12 @@
-<?php
-include('server.php');
-?>
+<?php include('server.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>The-Tech-Store/Home</title>
+		<title>The-Tech-Store/Login</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="../css.css">
-		<!-- Latest compiled and minified CSS -->
+		<!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
@@ -32,11 +30,19 @@ include('server.php');
 					margin-top: -10px;
 					text-align: center;
 				}
+				#container {
+					border-radius: 4px;
+					margin: auto;
+					background-color: rgba(213,222,239,0.6);
+					/*width: 1730px;*/
+					height: 1200px;
+					padding-top: 20px;
+				}
 				#logForm {
 					width: 19%;
 					text-align: center;
 					padding-top: 20px;
-					border: 1px solid grey;
+					border: 3px solid rgba(73, 86, 107, 0.2);
 					border-radius: 6px;
 					margin-left: 60px;
 				}
@@ -77,12 +83,6 @@ include('server.php');
 						margin-top: 9px;
 						margin-left: 16px;
 						margin-bottom: 5px;
-					}
-					#logForm {
-						width: 15%;
-						text-align: center;
-						padding-top: 20px;
-						padding-left: 20px;
 					}
 					#welcome {
 						margin-top: 15px;
@@ -235,16 +235,17 @@ include('server.php');
 			<div class="item3">
 				<div id="container">
 					<form method="post" action="login.php" id="logForm">
-						<!--  display validatopm errors here -->
+						<!--  display errors here -->
 						<?php include('errors.php'); ?>
 						<fieldset>
 							<legend>Login</legend><br/>
 							<label>Username</label><br/>
-							<input type="text" name="username" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
+							<input type="text" name="username" style="border-radius: 4px;" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
 							<label>Password</label><br/>
-							<input type="password" name="password" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
-							<button type="submit" name="login" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>>Login</button>
+							<input type="password" name="password" style="border-radius: 4px;" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
+							<button type="submit" name="login" style="border-radius: 4px;" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>>Login</button></br></br>
 							<p>Not a member? <a href="register.php">Sign up</a></p>
+							<a href="">Forgot Password?</a></p>
 						</fieldset>
 					</form>
 					<div class="text-box">
