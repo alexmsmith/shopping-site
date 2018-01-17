@@ -1,12 +1,29 @@
 <?php
-session_start();
+include_once 'includes/session.php';
 // Connect to the basket of the logged user
 // Get id of user, then use this to associate with a basket?
+/*
 if(isset($_SESSION['current_basket'])) {
 	$current_basket = unserialize($_SESSION['current_basket']);
 }else {
 	$current_basket = array();
 }
+?>
+*/
+
+// if(isset($_SESSION['username']) {
+	// retrieve basket from database?
+//} else {
+	// set emppy
+//}
+
+// Check if cart session variable is active
+if(isset($_SESSION['cart'])) {
+	print_r($_SESSION['cart']);
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once 'includes/session.php';
 // Logout
 if (isset($_GET['logout'])) {
 		session_destroy();

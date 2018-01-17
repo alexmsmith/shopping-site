@@ -2,7 +2,7 @@
 Calculator script still incomplete
 -->
 <?php
-session_start();
+include_once 'includes/session.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

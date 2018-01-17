@@ -3,12 +3,14 @@
 	By default, session variables last until the user closes the browser. So; Session variables hold information about one single user,
 	and are available to all pages in one application.
 	*/
-	session_start();
+	include_once 'includes/session.php';
 
 	$username = "";
 	$email = "";
 	$errors = array();
 	$_SESSION['success'] = "";
+
+	// Basket array variable? (initialise empty array?)
 
 
 	// Connect to the database

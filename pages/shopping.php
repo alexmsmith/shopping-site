@@ -1,12 +1,58 @@
 <?php
-session_start();
+include_once 'includes/session.php';
 
 $connect = mysqli_connect('localhost', 'root', '', 'shopping');
+$connectReg = mysqli_connect('localhost', 'root', '', 'registration');
+
+
+
+// We need to retrieve 'item_ids' from database of the specified username
+$username = $_SESSION['username'];
+
+$basket = array();
+
+
+$quer = "SELECT * FROM users WHERE username='$username'";
+$result = mysqli_query($connectReg, $quer);
+if(mysqli_num_rows($result) > 0) {
+	while($row = mysqli_fetch_array($result)) {
+		//echo $row['item_ids'];
+		$ids = $row['item_ids'];
+		// Split 'item_ids' to individual ids representing each product
+		$ids_split = str_split($ids, 1);
+		// Foreach, push to array
+		foreach ($ids_split as $key => $value) {
+			array_push($basket, $value);
+		}
+		$_SESSION['cart'] = $basket;
+		print_r($_SESSION['cart']);
+	}
+}
+
+/*
+$query = "SELECT * FROM tbl_product ORDER BY id ASC";
+$result = mysqli_query($connect, $query);
+if(mysqli_num_rows($result) > 0) {
+while($row = mysqli_fetch_array($result)) {
+*/
+
+$cart = array();
+// When the 'add to cart' button is selected...
 if(isset($_POST['add_to_cart'])) {
+
+
+
 	if(isset($_SESSION['shopping_cart'])) {
+
 		$item_array_id = array_column($_SESSION['shopping_cart'], 'item_id');
+		// If item hasn't been added to array
 		if(!in_array($_GET['id'], $item_array_id)) {
 			$count = count($_SESSION['shopping_cart']);
+
+			// May use this 'count' indicator for basket
+			//echo 'COUNT: '.$count;
+
+
 			$item_array = array(
 					'item_id'               =>     $_GET["id"],
           'item_name'               =>     $_POST["hidden_name"],
@@ -14,6 +60,7 @@ if(isset($_POST['add_to_cart'])) {
           'item_quantity'          =>     $_POST["quantity"]
 			);
 			$_SESSION['shopping_cart'][$count] = $item_array;
+
 		}
 		else {
 			echo '<script>alert("Item Already Added")</script>';
@@ -332,8 +379,13 @@ if(isset($_GET["action"]))
 													<p id="text-info">
 														<?php echo $row["description"]; ?></br></br>
 														<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
-														Quantity: <input type="text" name="quantity" id="form-control" value="1" /></br></br>
-														<input type="submit" name="add_to_cart" id="btn-success" value="Add to Cart" />
+
+														<!-- If user has logged in, then enable 'add to cart' buttons -->
+														<?php if (isset($_SESSION['username'])) : ?>
+															Quantity: <input type="text" name="quantity" id="form-control" value="1" /></br></br>
+															<input type="submit" name="add_to_cart" id="btn-success" value="Add to Cart" />
+														<?php endif ?>
+
 													</p>
 												</td>
 											</tr>
