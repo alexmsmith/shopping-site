@@ -25,24 +25,96 @@ if(mysqli_num_rows($result) > 0) {
 			array_push($basket, $value);
 		}
 		$_SESSION['cart'] = $basket;
-		print_r($_SESSION['cart']);
+		//print_r($_SESSION['cart']);
 	}
 }
 
-/*
-$query = "SELECT * FROM tbl_product ORDER BY id ASC";
-$result = mysqli_query($connect, $query);
-if(mysqli_num_rows($result) > 0) {
-while($row = mysqli_fetch_array($result)) {
-*/
 
-$cart = array();
+
+if(isset($_SESSION['cart'])) {
+	print_r($_SESSION['cart']);
+	if(isset($_POST['add_to_cart'])) {
+		echo 'Added to basket';
+
+		$item_array_id = array_column($_SESSION['cart'], 'item_id');
+
+		// If item hasn't been added to array
+		if(!in_array($_GET['id'], $item_array_id)) {
+			$count = count($_SESSION['cart']);
+
+			// Echos id for selected product
+			echo $_GET['id'];
+			array_push($_SESSION['cart'], $_GET["id"]);
+			//print_r($_SESSION['cart']);
+			// NOW WE NEED TO UPDATE THE item_ids within Database
+			//$quer = "SELECT * FROM users WHERE username='$username'";
+			print_r($_SESSION['cart']);
+			//echo $bask;
+			$bask = $_SESSION['cart'];
+			// conver to string
+			$b = implode("",$bask);
+
+			$quer2 = "UPDATE users SET item_ids='$b' WHERE username='$username'";
+			$result = mysqli_query($connectReg, $quer2);
+
+
+			// May use this 'count' indicator for basket
+			//echo 'COUNT: '.$count;
+
+			/*
+			$item_array = array(
+					'item_id'               =>     $_GET["id"],
+          'item_name'               =>     $_POST["hidden_name"],
+          'item_price'          =>     $_POST["hidden_price"]
+          //'item_quantity'          =>     $_POST["quantity"]
+			);
+			*/
+
+			// array_push($_SESSION['cart'], 'item_id');
+			$_SESSION['cart'][$count] = $item_array;
+		// array_push($cart, ___);
+		}else {
+			echo '<script>alert("Item Already Added")</script>';
+			echo '<script>window.location="shopping.php"</script>';
+		}
+	}else {
+			$item_array = array(
+      	'item_id'               =>     $_GET["id"],
+        'item_name'               =>     $_POST["hidden_name"],
+        'item_price'          =>     $_POST["hidden_price"]
+        //'item_quantity'          =>     $_POST["quantity"]
+      );
+      $_SESSION["cart"][0] = $item_array;
+	}
+}
+
+if(isset($_GET["action"])) {
+  if($_GET["action"] == "delete") {
+    foreach($_SESSION["cart"] as $key => $value) {
+      if($value["item_id"] == $_GET["id"]) {
+      	unset($_SESSION["cart"][$key]);
+        echo '<script>alert("Item Removed")</script>';
+        echo '<script>window.location="basket.php"</script>';
+      }
+  	}
+  }
+}
+
+
+
+
 // When the 'add to cart' button is selected...
 if(isset($_POST['add_to_cart'])) {
 
 
 
-	if(isset($_SESSION['shopping_cart'])) {
+	if(isset($_SESSION['cart'])) {
+
+
+		echo 'cart is active';
+
+
+
 
 		$item_array_id = array_column($_SESSION['shopping_cart'], 'item_id');
 		// If item hasn't been added to array

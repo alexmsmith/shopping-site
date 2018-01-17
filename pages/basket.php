@@ -1,5 +1,7 @@
 <?php
 include_once 'includes/session.php';
+$connect = mysqli_connect('localhost', 'root', '', 'shopping');
+$connectReg = mysqli_connect('localhost', 'root', '', 'registration');
 // Connect to the basket of the logged user
 // Get id of user, then use this to associate with a basket?
 /*
@@ -11,16 +13,41 @@ if(isset($_SESSION['current_basket'])) {
 ?>
 */
 
-// if(isset($_SESSION['username']) {
-	// retrieve basket from database?
-//} else {
-	// set emppy
-//}
+// We need to retrieve 'item_ids' from database of the specified username
+$username = $_SESSION['username'];
 
-// Check if cart session variable is active
-if(isset($_SESSION['cart'])) {
-	print_r($_SESSION['cart']);
+$basket = array();
+
+
+$quer = "SELECT * FROM users WHERE username='$username'";
+$result = mysqli_query($connectReg, $quer);
+if(mysqli_num_rows($result) > 0) {
+	while($row = mysqli_fetch_array($result)) {
+		//echo $row['item_ids'];
+		$ids = $row['item_ids'];
+		// Split 'item_ids' to individual ids representing each product
+		$ids_split = str_split($ids, 1);
+		// Foreach, push to array
+		foreach ($ids_split as $key => $value) {
+			array_push($basket, $value);
+		}
+		$_SESSION['cart'] = $basket;
+		//print_r($_SESSION['cart']);
+	}
 }
+
+print_r($_SESSION['cart']);
+
+
+
+
+
+
+
+
+// NEED TO PLACE PRODUCT BASKET INFORMATION WITHIN FORM!
+
+
 
 
 
@@ -254,21 +281,30 @@ if(isset($_SESSION['cart'])) {
                               <th id="tableHeader" width="5%">Action</th>
                          </tr>
                          <?php
-                         if(!empty($_SESSION["shopping_cart"]))
+                         if(!empty($_SESSION["cart"]))
                          {
                               $total = 0;
-                              foreach($_SESSION["shopping_cart"] as $keys => $values)
-                              {
+															// Foreach loop - looping through all ids from cart session
+                              foreach($_SESSION['cart'] as $key => $value)	{
+																$sql = "SELECT * FROM tbl_product WHERE id='$value'";
+																$result = mysqli_query($connect, $sql);
+																if(mysqli_num_rows($result) > 0) {
+																	while($row = mysqli_fetch_array($result)) {
+																		$name = $row['name'];
+																		$description = $row['description'];
+																		$price = $row['price'];
+																	}
+																}
                          ?>
                          <tr>
-                              <td id="tableData"><?php echo $values["item_name"]; ?></td>
-                              <td id="tableData"><?php echo $values["item_quantity"]; ?></td>
-                              <td id="tableData">£ <?php echo $values["item_price"]; ?></td>
-                              <td id="tableData">£ <?php echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
+                              <td id="tableData"><?php echo $name; ?></td>
+                              <td id="tableData"><?php echo $description; ?></td>
+                              <td id="tableData">£ <?php echo $price; ?></td>
+                              <!--<td id="tableData">£--><?php //echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
                               <td id="tableData"><a href="shopping.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span class="text-danger">Remove</span></a></td>
                          </tr>
                          <?php
-                                   $total = $total + ($values["item_quantity"] * $values["item_price"]);
+                                   //$total = $total + ($values["item_quantity"] * $values["item_price"]);
                               }
                          ?>
                          <tr>
