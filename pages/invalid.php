@@ -1,12 +1,14 @@
-<?php include('server.php'); ?>
+<?php
+	include_once 'includes/session.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>The-Tech-Store/Login</title>
+		<title>The-Tech-Store/About</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="../css.css">
-		<!-- Compiled and minified CSS -->
+		<!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
@@ -29,27 +31,6 @@
 					grid-gap: 10px;
 					margin-top: -10px;
 					text-align: center;
-				}
-				#container {
-					border-radius: 4px;
-					margin: auto;
-					background-color: rgba(213,222,239,0.6);
-					/*width: 1730px;*/
-					height: 1200px;
-					padding-top: 20px;
-				}
-				#logForm {
-					width: 19%;
-					text-align: center;
-					padding-top: 20px;
-					border: 3px solid rgba(73, 86, 107, 0.2);
-					border-radius: 6px;
-					margin-left: 60px;
-				}
-				.text-box {
-					width: 1300px;
-					margin-left: 400px;
-					margin-top: -280px;
 				}
 				/* Media query (Iphone 7 & 8 Plus)*/
 				@media screen and (max-width: 414px){
@@ -97,20 +78,6 @@
 					#search {
 		        display: none;
 		      }
-					#logForm {
-						width: 100%;
-						text-align: center;
-						padding-top: 20px;
-						border: 1px solid grey;
-						border-radius: 6px;
-						margin-left: 0px;
-					}
-					.text-box {
-						width: 98%;
-						margin: auto;
-						margin-top: 20px;
-						margin-left: 0px;
-					}
 				}
 		</style>
 		<!-- Add date/time script to external JS script -->
@@ -201,12 +168,12 @@
       	<ul class="nav navbar-nav">
         	<li id="listHome"><a href="home.php">Home</a></li>
         	<li id="menuItem"><a href="shopping.php">Shopping</a></li>
-        	<li id="menuItem"><a href="about.php">About</a></li>
+        	<li id="menuItem" class="active"><a href="about.php">About</a></li>
 					<li id="menuItem"><a href="contact.php">Contact</a></li>
       	</ul>
       	<ul class="nav navbar-nav navbar-right">
 					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
-					<li id="menuItem" class="active"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
+					<li id="menuItem"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
 					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
 					<div id="welcome" style="float: right;">
 						<!-- Logged in user information -->
@@ -233,48 +200,11 @@
 				</h1>
 			</div>
 			<div class="item3">
-				<div id="container">
-					<form method="post" action="login.php" id="logForm">
-						<!--  display errors here -->
-						<?php include('errors.php'); ?>
-						<fieldset>
-							<legend>Login</legend><br/>
-							<label>Username</label><br/>
-							<input type="text" name="username" style="border-radius: 4px;" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
-							<label>Password</label><br/>
-							<input type="password" name="password" style="border-radius: 4px;" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>/><br/><br/>
-							<button type="submit" name="login" style="border-radius: 4px;" <?php if(isset($_SESSION['username'])) { ?> disabled <?php } ?>>Login</button></br></br>
-							<p>Not a member? <a href="register.php">Sign up</a></p>
-							<a href="forgot.php">Forgot Password?</a></p>
-						</fieldset>
-					</form>
-					<div class="text-box">
-						<p id="text-info">
-						<strong>Example Text:</strong> phpMyAdmin is a free software tool written in PHP,
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						phpMyAdmin is a free software tool written in PHP,
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						</p>
-					</div>
-				</div>
+          <div id="container">
+            <script>alert('Invalid email address.')</script>
+            <?php header('location: forgot.php'); ?>
+          </div>
+          <br />
 			</div>
 			<div class="item4">
 				Footer
@@ -282,8 +212,3 @@
 		</div>
 	</body>
 </html>
-<?php
-	if(isset($_SESSION['username'])) { ?>
-		<script>alert("You've already logged in.");</script>
-	<?php }
-?>

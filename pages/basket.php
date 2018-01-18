@@ -14,38 +14,27 @@ if(isset($_SESSION['current_basket'])) {
 */
 
 // We need to retrieve 'item_ids' from database of the specified username
-$username = $_SESSION['username'];
+if(isset($_SESSION['username'])) {
+	$username = $_SESSION['username'];
+	$basket = array();
 
-$basket = array();
-
-
-$quer = "SELECT * FROM users WHERE username='$username'";
-$result = mysqli_query($connectReg, $quer);
-if(mysqli_num_rows($result) > 0) {
-	while($row = mysqli_fetch_array($result)) {
-		//echo $row['item_ids'];
-		$ids = $row['item_ids'];
-		// Split 'item_ids' to individual ids representing each product
-		$ids_split = str_split($ids, 1);
-		// Foreach, push to array
-		foreach ($ids_split as $key => $value) {
-			array_push($basket, $value);
+	$quer = "SELECT * FROM users WHERE username='$username'";
+	$result = mysqli_query($connectReg, $quer);
+	if(mysqli_num_rows($result) > 0) {
+		while($row = mysqli_fetch_array($result)) {
+			//echo $row['item_ids'];
+			$ids = $row['item_ids'];
+			// Split 'item_ids' to individual ids representing each product
+			$ids_split = str_split($ids, 1);
+			// Foreach, push to array
+			foreach ($ids_split as $key => $value) {
+				array_push($basket, $value);
+			}
+			$_SESSION['cart'] = $basket;
+			//print_r($_SESSION['cart']);
 		}
-		$_SESSION['cart'] = $basket;
-		//print_r($_SESSION['cart']);
 	}
 }
-
-print_r($_SESSION['cart']);
-
-
-
-
-
-
-
-
-// NEED TO PLACE PRODUCT BASKET INFORMATION WITHIN FORM!
 
 
 
@@ -269,56 +258,75 @@ print_r($_SESSION['cart']);
 				</h1>
 			</div>
 			<div class="item3">
-          <div id="container">
-               <h3>Order Details</h3>
-               <div class="table-responsive">
-                    <table class="table table-bordered">
-                         <tr>
-                              <th id="tableHeader" width="40%">Item Name</th>
-                              <th id="tableHeader" width="10%">Quantity</th>
-                              <th id="tableHeader" width="20%">Price</th>
-                              <th id="tableHeader" width="15%">Total</th>
-                              <th id="tableHeader" width="5%">Action</th>
-                         </tr>
-                         <?php
-                         if(!empty($_SESSION["cart"]))
-                         {
-                              $total = 0;
-															// Foreach loop - looping through all ids from cart session
-                              foreach($_SESSION['cart'] as $key => $value)	{
-																$sql = "SELECT * FROM tbl_product WHERE id='$value'";
-																$result = mysqli_query($connect, $sql);
-																if(mysqli_num_rows($result) > 0) {
-																	while($row = mysqli_fetch_array($result)) {
-																		$name = $row['name'];
-																		$description = $row['description'];
-																		$price = $row['price'];
-																	}
-																}
-                         ?>
-                         <tr>
-                              <td id="tableData"><?php echo $name; ?></td>
-                              <td id="tableData"><?php echo $description; ?></td>
-                              <td id="tableData">£ <?php echo $price; ?></td>
-                              <!--<td id="tableData">£--><?php //echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
-                              <td id="tableData"><a href="shopping.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span class="text-danger">Remove</span></a></td>
-                         </tr>
-                         <?php
-                                   //$total = $total + ($values["item_quantity"] * $values["item_price"]);
-                              }
-                         ?>
-                         <tr>
-                              <td colspan="3" align="right" style="background-color: #4CAF50; color: white;">Total</td>
-                              <td align="center" style="background-color: #4CAF50; color: white;">£ <?php echo number_format($total, 2); ?></td>
-                              <td></td>
-                         </tr>
-                         <?php
-                         }
-                         ?>
-                    </table>
-               </div>
-          </div>
-          <br />
+        <div id="container">
+          <h3>Order Details</h3>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <tr>
+              	<th id="tableHeader" width="40%">Item Name</th>
+              	<th id="tableHeader" width="10%">Quantity</th>
+              	<th id="tableHeader" width="20%">Price</th>
+              	<th id="tableHeader" width="15%">Total</th>
+              	<th id="tableHeader" width="5%">Action</th>
+              </tr>
+              <?php
+                if(!empty($_SESSION["cart"]))	{
+									$total = 0;
+									// Foreach loop - looping through all ids from cart session
+                  foreach($_SESSION['cart'] as $key => $value)	{
+										$sql = "SELECT * FROM tbl_product WHERE id='$value'";
+										$result = mysqli_query($connect, $sql);
+										if(mysqli_num_rows($result) > 0) {
+											while($row = mysqli_fetch_array($result)) {
+												$id = $row['id'];
+												$name = $row['name'];
+												$quantity = "
+												<script>
+													document.getElementsByName('quantity').value;
+												</script>";
+												// Convert the quantity to an integer data type
+												$quantityInt = (int)$quantity;
+												//"<script>console.log('$quantity');</script>";
+												$price = $row['price'];
+											}
+										}
+							?>
+              <tr>
+                <td id="tableData"><?php if (isset($name)) {echo $name;} ?></td>
+                <td id="tableData">
+									<!-- Use DOM to update the (price*quantity) and display in the Total column -->
+									<select name='quantity'>
+										<option value='1'>1</option>
+										<option value='2'>2</option>
+										<option value='3'>3</option>
+										<option value='4'>4</option>
+										<option value='5'>5</option>
+										<option value='6'>6</option>
+									</select>
+									<?php if (isset($quantity)) {echo $quantity;} ?>
+								</td>
+                <td id="tableData">£ <?php if(isset($price)) {echo $price;} ?></td>
+								<td id="tableData">£ <?php {echo $price*$quantityInt;} ?></td>
+                <!--<td id="tableData">£--><?php //echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
+                <td id="tableData"><a href="shopping.php?action=delete&id=<?php echo $id; ?>"><span class="text-danger">Remove</span></a></td>
+              </tr>
+              <?php
+									$total += $price;
+									//$total = $total + (/*$values["item_quantity"] 2*/ * $row["price"]);
+                }
+              ?>
+              <tr>
+                <td colspan="3" align="right" style="background-color: #4CAF50; color: white;">Total</td>
+                <td align="center" style="background-color: #4CAF50; color: white;">£ <?php echo number_format($total, 2); ?></td>
+                <td></td>
+              </tr>
+              <?php
+                }
+              ?>
+          </table>
+        </div>
+      </div>
+    <br />
 			</div>
 			<div class="item4">
 			</div>
