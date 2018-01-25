@@ -1,13 +1,10 @@
 <?php
 include_once 'includes/session.php';
-
 $connect = mysqli_connect('localhost', 'root', '', 'shopping');
 $connectReg = mysqli_connect('localhost', 'root', '', 'registration');
-
 // We need to retrieve 'item_ids' from database of the specified username
 if (isset($_SESSION['username'])) {
 	$username = $_SESSION['username'];
-
 	$basket = array();
 	$quer = "SELECT * FROM users WHERE username='$username'";
 	$result = mysqli_query($connectReg, $quer);
@@ -24,7 +21,6 @@ if (isset($_SESSION['username'])) {
 		}
 	}
 }
-
 if(isset($_SESSION['cart'])) {
 	if(isset($_POST['add_to_cart'])) {
 		// If item hasn't been added to array
@@ -50,14 +46,11 @@ if(isset($_SESSION['cart'])) {
 					}
 				}
 			}
-
 			$bask = $_SESSION['cart'];
 			// Convert to string
 			$b = implode("",$bask);
-
 			$quer2 = "UPDATE users SET item_ids='$b' WHERE username='$username'";
 			$result = mysqli_query($connectReg, $quer2);
-
 			// May use this 'count' indicator for basket
 			//echo 'COUNT: '.$count;
 			/* Use DOM for basket counter; update that element instead of
@@ -67,10 +60,8 @@ if(isset($_SESSION['cart'])) {
 		echo '<script>alert("Item Already Added")</script>';
 		echo '<script>window.location="shopping.php"</script>';
 	}
-
 	}
 }
-
 if(isset($_GET['action'])) {
 	if($_GET['action'] == 'delete') {
 		foreach($_SESSION['cart'] as $key => $value) {
@@ -81,7 +72,6 @@ if(isset($_GET['action'])) {
 				print_r($_SESSION['cart']);
 				// First, turn array into a string
 				$c = implode("",$_SESSION['cart']);
-
 				$quer3 = "UPDATE users SET item_ids='$c' WHERE username='$username'";
 				$result2 = mysqli_query($connectReg, $quer3);
 				echo '<script>alert("Item Removed")</script>';
@@ -90,8 +80,6 @@ if(isset($_GET['action'])) {
 		}
 	}
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -244,7 +232,6 @@ if(isset($_GET['action'])) {
 			function ampm() {
 				var now = new Date();
 				var hours = now.getHours();
-
 				if(hours > 12) {
 					return "pm";
 				}else {
@@ -382,7 +369,6 @@ if(isset($_GET['action'])) {
 
 														<!-- If user has logged in, then enable 'add to cart' buttons -->
 														<?php if (isset($_SESSION['username'])) : ?>
-															Quantity: <input type="text" name="quantity" id="form-control" value="1" /></br></br>
 															<input type="submit" name="add_to_cart" id="btn-success" value="Add to Cart" />
 														<?php endif ?>
 

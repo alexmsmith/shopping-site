@@ -2,17 +2,8 @@
 include_once 'includes/session.php';
 $connect = mysqli_connect('localhost', 'root', '', 'shopping');
 $connectReg = mysqli_connect('localhost', 'root', '', 'registration');
-// Connect to the basket of the logged user
-// Get id of user, then use this to associate with a basket?
-/*
-if(isset($_SESSION['current_basket'])) {
-	$current_basket = unserialize($_SESSION['current_basket']);
-}else {
-	$current_basket = array();
-}
-?>
-*/
 
+// Connect to the basket of the logged user
 // We need to retrieve 'item_ids' from database of the specified username
 if(isset($_SESSION['username'])) {
 	$username = $_SESSION['username'];
@@ -36,10 +27,6 @@ if(isset($_SESSION['username'])) {
 	}
 }
 
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,6 +40,8 @@ if(isset($_SESSION['username'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<!-- A javascript library for formatting and manipulating numbers -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 		<style>
 			/* Place Grid Layout in external style sheet */
 			<!-- Grid Layout -->
@@ -266,58 +255,79 @@ if(isset($_SESSION['username'])) {
               	<th id="tableHeader" width="40%">Item Name</th>
               	<th id="tableHeader" width="10%">Quantity</th>
               	<th id="tableHeader" width="20%">Price</th>
-              	<th id="tableHeader" width="15%">Total</th>
+              	<th id="tableHeader" width="15%">Sub-Total</th>
               	<th id="tableHeader" width="5%">Action</th>
               </tr>
               <?php
                 if(!empty($_SESSION["cart"]))	{
 									$total = 0;
+
+
 									// Foreach loop - looping through all ids from cart session
+									$price_array = array();
                   foreach($_SESSION['cart'] as $key => $value)	{
+
+										$item_id = array();
+										$selector_id = array();
+
+
 										$sql = "SELECT * FROM tbl_product WHERE id='$value'";
 										$result = mysqli_query($connect, $sql);
 										if(mysqli_num_rows($result) > 0) {
 											while($row = mysqli_fetch_array($result)) {
 												$id = $row['id'];
 												$name = $row['name'];
-												$quantity = "
-												<script>
-													document.getElementsByName('quantity').value;
-												</script>";
-												// Convert the quantity to an integer data type
-												$quantityInt = (int)$quantity;
-												//"<script>console.log('$quantity');</script>";
+												$selector = $row['selectorId'];
 												$price = $row['price'];
+
+												$quantity = '<select id=$key onchange="func(this, $key)">
+																			<option>1</option>
+																			<option>2</option>
+																			<option>3</option>
+																		</select>';
+
+												// push item_id to array
+												array_push($item_id, $id);
+												// push selector to array
+												array_push($selector_id, $selector);
+
+												// Place each price of item into array
+												array_push($price_array, $price);
 											}
 										}
+										//print_r($item_id);
+										//print_r($selector_id);
+
 							?>
               <tr>
                 <td id="tableData"><?php if (isset($name)) {echo $name;} ?></td>
-                <td id="tableData">
+                <td id="tableData"><?php if (isset($quantity)) {echo $quantity;} ?>
 									<!-- Use DOM to update the (price*quantity) and display in the Total column -->
-									<select name='quantity'>
-										<option value='1'>1</option>
-										<option value='2'>2</option>
-										<option value='3'>3</option>
-										<option value='4'>4</option>
-										<option value='5'>5</option>
-										<option value='6'>6</option>
-									</select>
-									<?php if (isset($quantity)) {echo $quantity;} ?>
+
+
+
+
+
 								</td>
-                <td id="tableData">£ <?php if(isset($price)) {echo $price;} ?></td>
-								<td id="tableData">£ <?php {echo $price*$quantityInt;} ?></td>
+                <td class="tablePrice">£ <?php if(isset($price)) {echo $price;} ?></td>
+								<td class="tableTPrice">£ <?php if(isset($price)) {echo $price;} ?></td>
                 <!--<td id="tableData">£--><?php //echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
                 <td id="tableData"><a href="shopping.php?action=delete&id=<?php echo $id; ?>"><span class="text-danger">Remove</span></a></td>
               </tr>
               <?php
-									$total += $price;
+									//$total += $price;
 									//$total = $total + (/*$values["item_quantity"] 2*/ * $row["price"]);
                 }
+								print_r($price_array);
+								//for loop key =>
+								$tota = 0;
+								foreach ($price_array as $key => $value) {
+									$tota += $value;
+								}
               ?>
               <tr>
                 <td colspan="3" align="right" style="background-color: #4CAF50; color: white;">Total</td>
-                <td align="center" style="background-color: #4CAF50; color: white;">£ <?php echo number_format($total, 2); ?></td>
+                <td class="tot" align="center" style="background-color: #4CAF50; color: white;">£ <?php echo number_format($tota, 2); ?></td>
                 <td></td>
               </tr>
               <?php
@@ -333,3 +343,52 @@ if(isset($_SESSION['username'])) {
 		</div>
 	</body>
 </html>
+<script>
+
+function func(q, key) {
+	var finalTotal = 0;
+	var priceArray = [];
+	// Prices of the individual item
+	var prices = document.querySelectorAll('.tablePrice');
+	prices.forEach(function(subPrice){
+		var b = subPrice.textContent;
+		// Replace the '£' sybol with an empty space, since we want just the numerical value of subTotal
+		var rep = b.replace("£",'');
+		console.log(rep);
+		priceArray.push(rep);
+	});
+
+	var pricesT = document.querySelectorAll('.tableTPrice');
+
+	var newArray = [];
+	var keys = Array.from(key);
+
+	var pa = <?php echo sizeof($price_array) ?>;
+	if(pa == 1) {
+		var b = key.value;
+		newArray.push(b);
+	}else {
+		keys.forEach(function(q){
+			var a = q.value;
+			newArray.push(a);
+		});
+	}
+	// For loop to go through entire basket
+	for(var j=0; j<5; j++) {
+		var q = newArray[j];
+		var p = priceArray[j];
+		var sub = q * p;
+		pricesT[j].innerHTML = '£ ';
+		pricesT[j].innerHTML += sub;
+		pricesT[j].innerHTML += '.00';
+		finalTotal += sub;
+
+		// Add all subTotals, and update the totalString
+		var totalString = numeral(finalTotal).format('0,0');
+		var tot = document.querySelector('.tot');
+		tot.innerHTML = '£ ';
+		tot.innerHTML += totalString;
+		tot.innerHTML += '.00';
+	}
+}
+</script>
