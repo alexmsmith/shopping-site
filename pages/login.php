@@ -208,6 +208,13 @@
 					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
 					<li id="menuItem" class="active"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
 					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
+					<div class="basket_counter">
+						<?php
+							if(isset($_SESSION['username'])) {
+								echo strlen($_SESSION['counter']);
+							}
+						?>
+					</div>
 					<div id="welcome" style="float: right;">
 						<!-- Logged in user information -->
 						<?php if (isset($_SESSION['username'])) : ?>

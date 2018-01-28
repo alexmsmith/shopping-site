@@ -6,6 +6,27 @@ if (isset($_GET['logout'])) {
 		unset($_SESSION['username']);
 		header('location: home.php');
 }
+$connectReg = mysqli_connect('localhost', 'root', '', 'registration');
+// We need to retrieve 'item_ids' from database of the specified username
+if (isset($_SESSION['username'])) {
+	$username = $_SESSION['username'];
+	$basket = array();
+	$quer = "SELECT * FROM users WHERE username='$username'";
+	$result = mysqli_query($connectReg, $quer);
+	if(mysqli_num_rows($result) > 0) {
+		while($row = mysqli_fetch_array($result)) {
+			$ids = $row['item_ids'];
+			// Split 'item_ids' to individual ids representing each product
+			$ids_split = str_split($ids, 1);
+			// Foreach, push to array
+			foreach ($ids_split as $key => $value) {
+				array_push($basket, $value);
+			}
+			$_SESSION['cart'] = $basket;
+		}
+	}
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -181,6 +202,16 @@ if (isset($_GET['logout'])) {
 					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
 					<li id="menuItem"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
 					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
+					<div class="basket_counter">
+						<?php
+							// Convert to string
+							if(isset($_SESSION['username'])) {
+								$b = implode("",$_SESSION['cart']);
+								$_SESSION['counter'] = $b;
+								echo strlen($_SESSION['counter']);
+							}
+						?>
+					</div>
 					<div id="welcome" style="float: right;">
 						<!-- Logged in user information -->
 						<?php if (isset($_SESSION['username'])) : ?>
@@ -216,17 +247,17 @@ if (isset($_GET['logout'])) {
       				<li data-target="#myCarousel" data-slide-to="2"></li>
     				</ol>
 						<!-- Wrapper for slides -->
-    				<div class="carousel-inner" style="z-index: -1;">
+    				<div class="carousel-inner" style="z-index: -1; border-radius: 6px; border: solid black 1px;">
       				<div class="item active">
-        				<img src="../images/Carousel/switch.jpg" alt="nintendo_switch" style="width: 100%; margin: auto;">
+        				<img src="../images/Carousel/switch.jpg" class="img-rounded" alt="nintendo_switch" style="width: 100%; margin: auto;">
       				</div>
 
       				<div class="item">
-        				<img src="../images/Carousel/ps4.jpg" alt="ps4" style="width:100%; margin: auto; z-index: -1;">
+        				<img src="../images/Carousel/ps4.jpg" class="img-rounded" alt="ps4" style="width:100%; margin: auto; z-index: -1;">
       				</div>
 
       				<div class="item">
-        				<img src="../images/Carousel/xbox.jpg" alt="xbox" style="width:100%; margin: auto; z-index: -1;">
+        				<img src="../images/Carousel/xbox.jpg" class="img-rounded" alt="xbox" style="width:100%; margin: auto; z-index: -1;">
       				</div>
     				</div>
 						<!-- Left and right controls -->

@@ -53,9 +53,6 @@ if(isset($_SESSION['cart'])) {
 			$result = mysqli_query($connectReg, $quer2);
 			// May use this 'count' indicator for basket
 			//echo 'COUNT: '.$count;
-			/* Use DOM for basket counter; update that element instead of
-				reloading the entire page.
-			*/
 	}	else {
 		echo '<script>alert("Item Already Added")</script>';
 		echo '<script>window.location="shopping.php"</script>';
@@ -69,7 +66,6 @@ if(isset($_GET['action'])) {
 				unset($_SESSION['cart'][$key]);
 				// Check if it updates the basket array_push
 				// Now time to update the database with new array
-				print_r($_SESSION['cart']);
 				// First, turn array into a string
 				$c = implode("",$_SESSION['cart']);
 				$quer3 = "UPDATE users SET item_ids='$c' WHERE username='$username'";
@@ -78,6 +74,18 @@ if(isset($_GET['action'])) {
 				echo '<script>window.location="basket.php"</script>';
 			}
 		}
+	}
+}
+if(isset($_GET['removeAll'])) {
+	if($_GET['removeAll'] == 'delete') {
+		unset($_SESSION['cart']);
+		// Check if it updates the basket array_push
+		// Now time to update the database with new array
+		// First, turn array into a string
+		$quer3 = "UPDATE users SET item_ids='' WHERE username='$username'";
+		$result2 = mysqli_query($connectReg, $quer3);
+		echo '<script>alert("Items Removed")</script>';
+		echo '<script>window.location="basket.php"</script>';
 	}
 }
 ?>
@@ -112,8 +120,9 @@ if(isset($_GET['action'])) {
 					text-align: center;
 				}
 				#col-md-4 {
-					margin-left: 50px;
+					margin-left: 64px;
 					width: 782px;
+					height: 340px;
 					float: left;
 				}
 				#store {
@@ -159,6 +168,7 @@ if(isset($_GET['action'])) {
 		        margin: auto;
 		        background-color: rgba(213,222,239,0.6); border-radius: 4px;
 		        width: 414px;
+						height: 2400px;
 					}
 					#col-md-4 {
 						margin-left: 0px;
@@ -311,16 +321,29 @@ if(isset($_GET['action'])) {
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
       	<ul class="nav navbar-nav">
-        	<li id="listHome"><a href="home.php">Home</a></li>
-        	<li class="active"><a href="shopping.php">Shopping</a></li>
-        	<li id="menuItem"><a href="about.php">About</a></li>
-					<li id="menuItem"><a href="contact.php">Contact</a></li>
+        	<li id="listHome" style="font-size: 13px;"><a href="home.php">Home <span class="glyphicon glyphicon-home"></span></a></li>
+        	<li class="active" style="font-size: 13px;"><a href="shopping.php">Shopping <span class="glyphicon glyphicon-gift"></span></a></li>
+        	<li id="menuItem" style="font-size: 13px;"><a href="about.php">About</a></li>
+					<li id="menuItem" style="font-size: 13px; "><a href="contact.php">Contact <span class="glyphicon glyphicon-envelope"></span></a></li>
       	</ul>
       	<ul class="nav navbar-nav navbar-right">
-					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
-					<li id="menuItem"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
-					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
-					<div id="welcome" style="float: right;">
+					<li id="menuItem" style="font-size: 13px;"><a href="calculate.php">Calculator</a></li>
+					<li id="menuItem" style="font-size: 13px;"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
+					<a href="basket.php"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 28px; margin-top: 10px; margin-left: 5px;"></span></a>
+					<!--<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>-->
+					<div class="basket_counter">
+						<?php
+							// Convert to string
+							if(isset($_SESSION['username'])) {
+								$b = implode("",$_SESSION['cart']);
+								$_SESSION['counter'] = $b;
+								//echo strlen($_SESSION['counter']);
+								?><span class="label" style="padding:2px; margin-left: -12px; font-size: 16px;"><?php echo strlen($_SESSION['counter']); ?></span>
+								<?php
+							}
+						?>
+					</div>
+					<div id="welcome" style="float: right; margin-left: 16px;">
 						<!-- Logged in user information -->
 						<?php if (isset($_SESSION['username'])) : ?>
 								<p>
@@ -363,16 +386,15 @@ if(isset($_GET['action'])) {
 												<td id="imgContent">
 													<span style="float: right;" class="label label-success">New!</span>
 													<h3 id="heading-three"><?php echo $row["name"]; ?></h3>
-													<p id="text-info">
+													<medium class="text-muted">
 														<?php echo $row["description"]; ?></br></br>
 														<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
-
 														<!-- If user has logged in, then enable 'add to cart' buttons -->
 														<?php if (isset($_SESSION['username'])) : ?>
-															<input type="submit" name="add_to_cart" id="btn-success" value="Add to Cart" />
+															<input type="submit" class="btn btn-primary active" name="add_to_cart" id="btn-sucess" value="Add to Basket" />
 														<?php endif ?>
-
-													</p>
+													</medium>
+													<p id="text-info"></p>
 												</td>
 											</tr>
 										</table>
@@ -390,7 +412,17 @@ if(isset($_GET['action'])) {
           <br />
 			</div>
 			<div class="item4">
-				Footer
+				<!-- Bootstrap pagination -->
+					<span class="pagination">
+						<li><a href="">Previous</a></li>
+						<li><a href="#">1</a></li>
+						<li class="disabled"><a href="">2</a></li>
+						<li class="disabled"><a href="">3</a></li>
+						<li class="disabled"><a href="">4</a></li>
+						<li class="disabled"><a href="">5</a></li>
+						<li><a href="">Next</a></li>
+						</span>
+					</span>
 			</div>
 		</div>
 	</body>

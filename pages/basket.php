@@ -13,7 +13,6 @@ if(isset($_SESSION['username'])) {
 	$result = mysqli_query($connectReg, $quer);
 	if(mysqli_num_rows($result) > 0) {
 		while($row = mysqli_fetch_array($result)) {
-			//echo $row['item_ids'];
 			$ids = $row['item_ids'];
 			// Split 'item_ids' to individual ids representing each product
 			$ids_split = str_split($ids, 1);
@@ -22,7 +21,6 @@ if(isset($_SESSION['username'])) {
 				array_push($basket, $value);
 			}
 			$_SESSION['cart'] = $basket;
-			//print_r($_SESSION['cart']);
 		}
 	}
 }
@@ -222,6 +220,13 @@ if(isset($_SESSION['username'])) {
 					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
 					<li id="menuItem"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
 					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
+					<div class="basket_counter">
+						<?php
+							if(isset($_SESSION['username'])) {
+								echo strlen($_SESSION['counter']);
+							}
+						?>
+					</div>
 					<div id="welcome" style="float: right;">
 						<!-- Logged in user information -->
 						<?php if (isset($_SESSION['username'])) : ?>
@@ -262,14 +267,12 @@ if(isset($_SESSION['username'])) {
                 if(!empty($_SESSION["cart"]))	{
 									$total = 0;
 
-
 									// Foreach loop - looping through all ids from cart session
 									$price_array = array();
                   foreach($_SESSION['cart'] as $key => $value)	{
 
 										$item_id = array();
 										$selector_id = array();
-
 
 										$sql = "SELECT * FROM tbl_product WHERE id='$value'";
 										$result = mysqli_query($connect, $sql);
@@ -280,7 +283,7 @@ if(isset($_SESSION['username'])) {
 												$selector = $row['selectorId'];
 												$price = $row['price'];
 
-												$quantity = '<select id=$key onchange="func(this, $key)">
+												$quantity = '<select id=$selectorId onchange="quantityFunction(this, $selectorId)">
 																			<option>1</option>
 																			<option>2</option>
 																			<option>3</option>
@@ -290,43 +293,29 @@ if(isset($_SESSION['username'])) {
 												array_push($item_id, $id);
 												// push selector to array
 												array_push($selector_id, $selector);
-
 												// Place each price of item into array
 												array_push($price_array, $price);
 											}
 										}
-										//print_r($item_id);
-										//print_r($selector_id);
-
 							?>
               <tr>
                 <td id="tableData"><?php if (isset($name)) {echo $name;} ?></td>
-                <td id="tableData"><?php if (isset($quantity)) {echo $quantity;} ?>
-									<!-- Use DOM to update the (price*quantity) and display in the Total column -->
-
-
-
-
-
-								</td>
+                <td id="tableData"><?php if (isset($quantity)) {echo $quantity;} ?></td>
                 <td class="tablePrice">£ <?php if(isset($price)) {echo $price;} ?></td>
 								<td class="tableTPrice">£ <?php if(isset($price)) {echo $price;} ?></td>
                 <!--<td id="tableData">£--><?php //echo number_format($values["item_quantity"] * $values["item_price"], 2); ?></td>
                 <td id="tableData"><a href="shopping.php?action=delete&id=<?php echo $id; ?>"><span class="text-danger">Remove</span></a></td>
               </tr>
               <?php
-									//$total += $price;
-									//$total = $total + (/*$values["item_quantity"] 2*/ * $row["price"]);
                 }
-								print_r($price_array);
-								//for loop key =>
 								$tota = 0;
 								foreach ($price_array as $key => $value) {
 									$tota += $value;
 								}
               ?>
               <tr>
-                <td colspan="3" align="right" style="background-color: #4CAF50; color: white;">Total</td>
+								<td colspan="1" align="left" style="background-color: #4CAF50; color: white;"><a href="shopping.php?removeAll=delete&id=<?php echo $id; ?>"><span class="text-danger">Remove All</span></a></td>
+                <td colspan="2" align="right" style="background-color: #4CAF50; color: white;">Total</td>
                 <td class="tot" align="center" style="background-color: #4CAF50; color: white;">£ <?php echo number_format($tota, 2); ?></td>
                 <td></td>
               </tr>
@@ -344,51 +333,50 @@ if(isset($_SESSION['username'])) {
 	</body>
 </html>
 <script>
-
-function func(q, key) {
-	var finalTotal = 0;
-	var priceArray = [];
-	// Prices of the individual item
-	var prices = document.querySelectorAll('.tablePrice');
-	prices.forEach(function(subPrice){
-		var b = subPrice.textContent;
-		// Replace the '£' sybol with an empty space, since we want just the numerical value of subTotal
-		var rep = b.replace("£",'');
-		console.log(rep);
-		priceArray.push(rep);
-	});
-
-	var pricesT = document.querySelectorAll('.tableTPrice');
-
-	var newArray = [];
-	var keys = Array.from(key);
-
-	var pa = <?php echo sizeof($price_array) ?>;
-	if(pa == 1) {
-		var b = key.value;
-		newArray.push(b);
-	}else {
-		keys.forEach(function(q){
-			var a = q.value;
-			newArray.push(a);
+	function quantityFunction(q, key) {
+		var finalTotal = 0;
+		var priceArray = [];
+		// Prices of the individual item
+		var prices = document.querySelectorAll('.tablePrice');
+		prices.forEach(function(subPrice){
+			var subTotal = subPrice.textContent;
+			// Replace the '£' sybol with an empty space, since we want just the numerical value of subTotal
+			var subTotalValue = subTotal.replace("£",'');
+			//console.log(rep);
+			priceArray.push(subTotalValue);
 		});
-	}
-	// For loop to go through entire basket
-	for(var j=0; j<5; j++) {
-		var q = newArray[j];
-		var p = priceArray[j];
-		var sub = q * p;
-		pricesT[j].innerHTML = '£ ';
-		pricesT[j].innerHTML += sub;
-		pricesT[j].innerHTML += '.00';
-		finalTotal += sub;
 
-		// Add all subTotals, and update the totalString
-		var totalString = numeral(finalTotal).format('0,0');
-		var tot = document.querySelector('.tot');
-		tot.innerHTML = '£ ';
-		tot.innerHTML += totalString;
-		tot.innerHTML += '.00';
+		var pricesT = document.querySelectorAll('.tableTPrice');
+		var newArray = [];
+		var keys = Array.from(key);
+
+		var priceArrayLength = <?php echo sizeof($price_array) ?>;
+		if(priceArrayLength == 1) {
+			var b = key.value;
+			newArray.push(b);
+		}else {
+			keys.forEach(function(q){
+				var a = q.value;
+				newArray.push(a);
+			});
+		}
+
+		// For loop to go through entire basket
+		for(var j=0; j<priceArrayLength; j++) {
+			var q = newArray[j];
+			var p = priceArray[j];
+			var sub = q * p;
+			pricesT[j].innerHTML = '£ ';
+			pricesT[j].innerHTML += sub;
+			pricesT[j].innerHTML += '.00';
+			finalTotal += sub;
+
+			// Add all subTotals, and update the totalString
+			var totalString = numeral(finalTotal).format('0,0');
+			var tot = document.querySelector('.tot');
+			tot.innerHTML = '£ ';
+			tot.innerHTML += totalString;
+			tot.innerHTML += '.00';
+		}
 	}
-}
 </script>
