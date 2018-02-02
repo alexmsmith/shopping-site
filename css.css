@@ -4,13 +4,13 @@ body {
 	background-color: #ccd7ea;
 }
 #heading-one {
-	font-size: 42px;
+	font-size: 40px;
 	font-family: Agency FB;
-	color: #5d6470;
-	text-align: left;
-	margin-bottom: -10px;
+	color: #03347c;
 	letter-spacing: 2px;
-	width: 55%;
+	margin:0;
+	margin-top: 3px;
+	float: left;
 }
 #heading-two {
 	font-family: Agency FB;
@@ -21,10 +21,9 @@ body {
 	font-size: 22px;
 }
 #logo {
-	margin-top: -10px;
 	margin-left: 11px;
-	width: 58px;
-	height: 58px;
+	width: 50px;
+	height: 50px;
 	z-index: -1;
 	float: left;
 }
@@ -96,12 +95,28 @@ body {
 	box-sizing: border-box;
 	border: 2px solid #ccc;
 	border-radius: 6px;
-	font-size: 16px;
+	font-size: 14px;
 	background-image: url('images/search.png');
-	background-position: 9px 6px;
+	background-position: 8px 4px;
 	background-repeat: no-repeat;
-	padding: 8px 16px 8px 36px;
+	padding: 4px 12px 4px 32px;
 	margin-top: 8px;
+	margin-left: 10px;
+}
+.sub-menu {
+	float: left;
+	padding: 0;
+	margin: 0;
+	margin-top: 24px;
+	margin-left: 40px;
+}
+.sub-menu-item {
+	display: inline;
+	padding: 4px;
+	margin-right: 20px;
+	border-radius: 4px;
+	color: #03347c;
+	font-style: italic;
 }
 /* Media query (Iphone 7 & 8 Plus)*/
 @media screen and (max-width: 414px){

@@ -192,27 +192,30 @@ if (isset($_SESSION['username'])) {
       	</button>
     	</div>
     	<div class="collapse navbar-collapse" id="myNavbar">
-      	<ul class="nav navbar-nav">
-        	<li id="listHome" class="active"><a href="home.php">Home</a></li>
-        	<li id="menuItem"><a href="shopping.php">Shopping</a></li>
-        	<li id="menuItem"><a href="about.php">About</a></li>
-					<li id="menuItem"><a href="contact.php">Contact</a></li>
+				<ul class="nav navbar-nav">
+        	<li id="listHome" style="font-size: 13px;"><a href="home.php">Home <span class="glyphicon glyphicon-home"></span></a></li>
+        	<li id="menuItem" style="font-size: 13px;"><a href="shopping.php">Shopping <span class="glyphicon glyphicon-gift"></span></a></li>
+        	<li id="menuItem" style="font-size: 13px;"><a href="about.php">About</a></li>
+					<li id="menuItem" style="font-size: 13px; "><a href="contact.php">Contact <span class="glyphicon glyphicon-envelope"></span></a></li>
       	</ul>
-      	<ul class="nav navbar-nav navbar-right">
-					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
-					<li id="menuItem"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
-					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
+				<ul class="nav navbar-nav navbar-right">
+					<li id="menuItem" style="font-size: 13px;"><a href="calculate.php">Calculator</a></li>
+					<li id="menuItem" style="font-size: 13px;"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
+					<a href="basket.php"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 28px; margin-top: 10px; margin-left: 5px;"></span></a>
+					<!--<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>-->
 					<div class="basket_counter">
 						<?php
 							// Convert to string
 							if(isset($_SESSION['username'])) {
 								$b = implode("",$_SESSION['cart']);
 								$_SESSION['counter'] = $b;
-								echo strlen($_SESSION['counter']);
+								//echo strlen($_SESSION['counter']);
+								?><span class="label" style="padding:2px; margin-left: -12px; font-size: 16px;"><?php echo strlen($_SESSION['counter']); ?></span>
+								<?php
 							}
 						?>
 					</div>
-					<div id="welcome" style="float: right;">
+					<div id="welcome" style="float: right; margin-left: 16px;">
 						<!-- Logged in user information -->
 						<?php if (isset($_SESSION['username'])) : ?>
 								<p>

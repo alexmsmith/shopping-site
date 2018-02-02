@@ -187,7 +187,7 @@ if(isset($_GET['removeAll'])) {
 					#text-info {
 						border-bottom-left-radius: 6px;
 						border-bottom-right-radius: 6px;
-						border-bottom: 2px solid rgba(76,96,127,0.6);
+						border-bottom: 2px solid rgba(247,232,121,0.6);
 						padding: 10px;
 						font-family: Agency FB;
 						font-size: 16px;
@@ -326,6 +326,8 @@ if(isset($_GET['removeAll'])) {
         	<li id="menuItem" style="font-size: 13px;"><a href="about.php">About</a></li>
 					<li id="menuItem" style="font-size: 13px; "><a href="contact.php">Contact <span class="glyphicon glyphicon-envelope"></span></a></li>
       	</ul>
+				<!-- Product search bar -->
+				<input id="search" type="text" name="search" placeholder="Search for a product.."/>
       	<ul class="nav navbar-nav navbar-right">
 					<li id="menuItem" style="font-size: 13px;"><a href="calculate.php">Calculator</a></li>
 					<li id="menuItem" style="font-size: 13px;"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
@@ -358,14 +360,16 @@ if(isset($_GET['removeAll'])) {
 	</nav>
 	<div class="grid-container">
 		</br>
-			<div class="item2" style="margin-top: 50px;">
-				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
+			<div class="item2" style="margin-top: 50px; background-color: rgba(121, 167, 247, 0.4);">
+				<!-- Displays current date and time, updating every second
+				<!--<p id="time" style="font-family: Cambria; color: #5d6470;"></p>-->
 				<img src="../images/circuit_board_logo.png" alt="logo" id="logo" />
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i>
-					<form style="float: right;">
-						<input id="search" type="text" name="search" placeholder="Search.."/>
-					</form>
-				</h1>
+				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i></h1>
+				<ul class="sub-menu">
+					<a href=""><li class="sub-menu-item">Special Bargins!</medium></li></a>
+					<a href=""><li class="sub-menu-item">Christmas Sale</medium></li></a>
+					<a href=""><li class="sub-menu-item">Other</medium></li></a>
+				</ul>
 			</div>
 			<div class="item3">
           <div id="container">
@@ -411,7 +415,7 @@ if(isset($_GET['removeAll'])) {
           </div>
           <br />
 			</div>
-			<div class="item4">
+			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
 				<!-- Bootstrap pagination -->
 					<span class="pagination">
 						<li><a href="">Previous</a></li>
