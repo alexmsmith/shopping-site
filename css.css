@@ -4,7 +4,7 @@ body {
 .item3 {
 	text-align: center;
 	margin: 0 auto;
-	width: 1400px;
+	width: 1380px;
 	height: 1000px;
 	padding: 0;
 }
@@ -65,6 +65,8 @@ body {
 	transition-duration: 0.6s;
 	color: black;
 }
+#menuItem a {
+}
 #menuItem a:hover {
 	background-color: lightgreen;
 	transition-duration: 0.6s;
@@ -87,19 +89,20 @@ body {
 	box-sizing: border-box;
 	border: 2px solid #ccc;
 	border-radius: 6px;
-	font-size: 14px;
+	font-size: 12px;
 	background-image: url('images/search.png');
-	background-position: 8px 4px;
+	background-position: 4px 2px;
+	background-size: 16px;
 	background-repeat: no-repeat;
 	padding: 4px 12px 4px 32px;
-	margin-top: 8px;
+	margin-top: 10px;
 	margin-left: 10px;
 }
 #searchDiv {
 	position: absolute;
-	left: 380px;
-	top: 50px;
-	width: 430px;
+	left: 378px;
+	top: 44px;
+	width: 501px;
 }
 #searchResults {
 	border-bottom-left-radius: 4px;
@@ -107,6 +110,7 @@ body {
 	background-color: rgba(0, 0, 0, 1);
 	color: white;
 	padding-left: 6px;
+	padding-bottom: 4px;
 }
 .sub-menu {
 	float: left;
