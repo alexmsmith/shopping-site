@@ -1,5 +1,7 @@
 <?php
+// Include a session initialisation for the user
 include_once 'includes/session.php';
+// Connect to both the shopping and registration databases
 $connect = mysqli_connect('localhost', 'root', '', 'shopping');
 $connectReg = mysqli_connect('localhost', 'root', '', 'registration');
 // We need to retrieve 'item_ids' from database of the specified username
@@ -28,58 +30,50 @@ if(isset($_SESSION['cart'])) {
 			$count = count($_SESSION['cart']);
 			// Check for duplicates in session variable['cart']
 			// If array is empty, push value to array
-			/*
-			- MAY NEED TO CUT OUT USELESS CODE
-			- NOT SURE IF LOOP IS NEEDED BELOW
-			*/
-			if(!empty($_SESSION['cart'])) {
-				// Need to loop through cart to compare values to the id
-				for($i=0; $i<count($_SESSION['cart']); ) {
-					$value = $_SESSION['cart'][$i];
-					if($_GET['id'] == $value) {
-						break;
-					}else {
-						$i++;
-						if($i >= count($_SESSION['cart'])) {
-							array_push($_SESSION['cart'], $_GET['id']);
-						}
-					}
+			for($i=0; $i<count($_SESSION['cart']); ) {
+				$value = $_SESSION['cart'][$i];
+				if($_GET['id'] == $value)
+					// If duplicate is found then break
+					break;
+				else {
+					// Otherwise push id to the cart
+					$i++;
+					if($i >= count($_SESSION['cart']))
+						array_push($_SESSION['cart'], $_GET['id']);
 				}
 			}
-			$bask = $_SESSION['cart'];
 			// Convert to string
-			$b = implode("",$bask);
-			$quer2 = "UPDATE users SET item_ids='$b' WHERE username='$username'";
-			$result = mysqli_query($connectReg, $quer2);
-			// May use this 'count' indicator for basket
-			//echo 'COUNT: '.$count;
+			$basket = implode("",$_SESSION['cart']);
+			$basketQuery = "UPDATE users SET item_ids='$basket' WHERE username='$username'";
+			$result = mysqli_query($connectReg, $basketQuery);
+			// If the item has been already added to the cart
 	}	else {
-		echo '<script>alert("Item Already Added")</script>';
-		echo '<script>window.location="shopping.php"</script>';
-	}
+			echo '<script>alert("Item Already Added")</script>';
+			echo '<script>window.location="shopping.php"</script>';
+		}
 	}
 }
+// Remove a single item from basket and update database
 if(isset($_GET['action'])) {
 	if($_GET['action'] == 'delete') {
 		foreach($_SESSION['cart'] as $key => $value) {
 			if($value == $_GET['id']) {
 				unset($_SESSION['cart'][$key]);
-				// Check if it updates the basket array_push
 				// Now time to update the database with new array
 				// First, turn array into a string
-				$c = implode("",$_SESSION['cart']);
-				$quer3 = "UPDATE users SET item_ids='$c' WHERE username='$username'";
-				$result2 = mysqli_query($connectReg, $quer3);
+				$basket = implode("",$_SESSION['cart']);
+				$basketQuery = "UPDATE users SET item_ids='$basket' WHERE username='$username'";
+				$result = mysqli_query($connectReg, $basketQuery);
 				echo '<script>alert("Item Removed")</script>';
 				echo '<script>window.location="basket.php"</script>';
 			}
 		}
 	}
 }
+// Remove all items from basket and update database
 if(isset($_GET['removeAll'])) {
 	if($_GET['removeAll'] == 'delete') {
 		unset($_SESSION['cart']);
-		// Check if it updates the basket array_push
 		// Now time to update the database with new array
 		// First, turn array into a string
 		$quer3 = "UPDATE users SET item_ids='' WHERE username='$username'";
@@ -99,15 +93,18 @@ if(isset($_GET['removeAll'])) {
 		<!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<!-- Used for the internal data and time -->
+		<script src="time.js"></script>
 		<style>
 			/* Place Grid Layout in external style sheet */
 			<!-- Grid Layout -->
 			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
 			.item2 { grid-area: menu; margin-top: 24px; }
 			.item3 { grid-area: main; }
-			.item4 { grid-area: footer; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
+			.item4 { grid-area: footer; }
 			.grid-container {
 				display: grid;
 				grid:
@@ -120,9 +117,9 @@ if(isset($_GET['removeAll'])) {
 					text-align: center;
 				}
 				#col-md-4 {
-					margin-left: 64px;
-					width: 782px;
-					height: 340px;
+					margin-left: 50px;
+					width: 600px;
+					height: 300px;
 					float: left;
 				}
 				#store {
@@ -236,76 +233,23 @@ if(isset($_GET['removeAll'])) {
 					}
 				}
 		</style>
-		<!-- Add date/time script to external JS script -->
-		<script type="text/javascript">
-		//Basic clock
-			function ampm() {
-				var now = new Date();
-				var hours = now.getHours();
-				if(hours > 12) {
-					return "pm";
-				}else {
-					return "am";
-				}
-			}
-			// If hours, minutes or seconds hits 0, change to 00
-			function secondsZero() {
-				var now = new Date();
-				var seconds = now.getSeconds();
-				if(seconds < 10){
-					return '0'+seconds;
-				}else {
-					return seconds;
-				}
-			}
-			function hoursZero() {
-				var now = new Date();
-				var hours = now.getHours();
-				if(hours < 10){
-					return '0'+hours;
-				}else {
-					return hours;
-				}
-			}
-			function minutesZero() {
-				var now = new Date();
-				var minutes = now.getMinutes();
-				if(minutes < 10){
-					return '0'+minutes;
-				}else {
-					return minutes;
-				}
-			}
-			function days() {
-				var now = new Date();
-				var day = now.getDate();
-				if(day < 10) {
-					return '0'+day;
-				}else {
-					return day;
-				}
-			}
-			function months() {
-				var now = new Date();
-				var month = now.getMonth();
-				if(month < 10) {
-					return '0'+(month+1);
-				}else {
-					return month;
-				}
-			}
-			function printTime() {
-				//Grabs current date/time
-				var now = new Date();
-				var day = now.getDate();
-				var month = now.getMonth();
-				var year = now.getFullYear();
-				//Format data
-				document.getElementById("time").innerHTML = days() + "/" + months() + "/" + year + " - " +
-															hoursZero() + ":" + minutesZero() + ":" + secondsZero() + " " + ampm();
-			}
-			setInterval("printTime()");
-			setInterval("printTime()", 1000);
+		<script>
+			/*	Search bar functionality	*/
+				// Load the document before the script executes
+				$(document).ready(function(){
+					// Keyup action on input box
+					$('#search').keyup(function(){
+						// Name is equal to the value of the input box
+						var name = $('#search').val();
+						// POST method (target: 'suggestions.php')
+						$.post('suggestions.php', {
+							// Suggestion is posted to 'suggestions.php'
+							suggestion: name
+						}, function(data, status) {
+							$('#searchResults').html(data);
+						});
+					});
+				});
 		</script>
 	</head>
 	<body>
@@ -328,30 +272,34 @@ if(isset($_GET['removeAll'])) {
       	</ul>
 				<!-- Product search bar -->
 				<input id="search" type="text" name="search" placeholder="Search for a product.."/>
+				<!-- Displays the search result(s) -->
+				<div id="searchDiv">
+					<p id="searchResults"></p>
+				</div>
+
       	<ul class="nav navbar-nav navbar-right">
 					<li id="menuItem" style="font-size: 13px;"><a href="calculate.php">Calculator</a></li>
 					<li id="menuItem" style="font-size: 13px;"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
 					<a href="basket.php"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 28px; margin-top: 10px; margin-left: 5px;"></span></a>
-					<!--<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>-->
+					<!-- Basket counter -->
 					<div class="basket_counter">
 						<?php
-							// Convert to string
 							if(isset($_SESSION['username'])) {
-								$b = implode("",$_SESSION['cart']);
-								$_SESSION['counter'] = $b;
-								//echo strlen($_SESSION['counter']);
-								?><span class="label" style="padding:2px; margin-left: -12px; font-size: 16px;"><?php echo strlen($_SESSION['counter']); ?></span>
+								$basket = implode("",$_SESSION['cart']);
+								$_SESSION['counter'] = $basket;
+								?><span class="label" style="padding:2px; margin-left: -12px; font-size: 14px;"><?php echo strlen($_SESSION['counter']); ?></span>
 								<?php
 							}
-						?>
+								?>
 					</div>
 					<div id="welcome" style="float: right; margin-left: 16px;">
 						<!-- Logged in user information -->
 						<?php if (isset($_SESSION['username'])) : ?>
-								<p>
-									Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
-									<b><a href="home.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
-								</p>
+						<p>
+							Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
+							<!-- Logout account link -->
+							<b><a href="home.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
+						</p>
 						<?php endif ?>
 					</div>
       	</ul>
@@ -360,7 +308,7 @@ if(isset($_GET['removeAll'])) {
 	</nav>
 	<div class="grid-container">
 		</br>
-			<div class="item2" style="margin-top: 50px; background-color: rgba(121, 167, 247, 0.4);">
+			<div class="item2" style="margin-top: 50px;">
 				<!-- Displays current date and time, updating every second
 				<!--<p id="time" style="font-family: Cambria; color: #5d6470;"></p>-->
 				<img src="../images/circuit_board_logo.png" alt="logo" id="logo" />
@@ -372,48 +320,46 @@ if(isset($_GET['removeAll'])) {
 				</ul>
 			</div>
 			<div class="item3">
-          <div id="container">
-              <?php
-               $query = "SELECT * FROM tbl_product ORDER BY id ASC";
-               $result = mysqli_query($connect, $query);
-               if(mysqli_num_rows($result) > 0) {
-                while($row = mysqli_fetch_array($result)) {
-               ?>
-               	<form method="post" action="shopping.php?action=add&id=<?php echo $row["id"]; ?>">
-							 		<div id="col-md-4" style="padding:16px;">
-                    <table id="store">
-											<tr>
-												<td id="img">
-													<!-- Display product images -->
-													<img class="img-responsive" src="<?php echo $row["img"]; ?>"/>
-												</td>
-												<td id="imgContent">
-													<span style="float: right;" class="label label-success">New!</span>
-													<h3 id="heading-three"><?php echo $row["name"]; ?></h3>
-													<medium class="text-muted">
-														<?php echo $row["description"]; ?></br></br>
-														<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
-														<!-- If user has logged in, then enable 'add to cart' buttons -->
-														<?php if (isset($_SESSION['username'])) : ?>
-															<input type="submit" class="btn btn-primary active" name="add_to_cart" id="btn-sucess" value="Add to Basket" />
-														<?php endif ?>
-													</medium>
-													<p id="text-info"></p>
-												</td>
-											</tr>
-										</table>
-										<input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
-										<input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>" />
-                  </div>
-               	</form>
-               <?php
-						   			}
-               }
-               ?>
-               <div style="clear:both"></div>
-               <br />
-          </div>
-          <br />
+						<?php
+						 $query = "SELECT * FROM tbl_product ORDER BY id ASC";
+						 $result = mysqli_query($connect, $query);
+						 if(mysqli_num_rows($result) > 0) {
+							while($row = mysqli_fetch_array($result)) {
+						 ?>
+							<form method="post" action="shopping.php?action=add&id=<?php echo $row["id"]; ?>">
+								<div id="col-md-4" style="padding:16px;">
+									<table id="store">
+										<tr>
+											<td id="img">
+												<!-- Display product images -->
+												<img class="img-responsive" src="<?php echo $row["img"]; ?>"/>
+											</td>
+											<td id="imgContent">
+												<span style="float: right;" class="label label-success">New!</span>
+												<h3 id="heading-three"><?php echo $row["name"]; ?></h3>
+												<medium class="text-muted">
+													<?php echo $row["description"]; ?></br></br>
+													<b>Price:</b> £<?php echo $row["price"]; ?></br></br>
+													<!-- If user has logged in, then enable 'add to cart' buttons -->
+													<?php if (isset($_SESSION['username'])) : ?>
+														<input type="submit" class="btn btn-primary active" name="add_to_cart" id="btn-sucess" value="Add to Basket" />
+													<?php endif ?>
+												</medium>
+												<p id="text-info"></p>
+											</td>
+										</tr>
+									</table>
+									<input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
+									<input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>" />
+								</div>
+							</form>
+						 <?php
+									}
+						 }
+						 ?>
+						 <div style="clear:both"></div>
+						 <br />
+				<br />
 			</div>
 			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
 				<!-- Bootstrap pagination -->
@@ -426,7 +372,6 @@ if(isset($_GET['removeAll'])) {
 						<li class="disabled"><a href="">5</a></li>
 						<li><a href="">Next</a></li>
 						</span>
-					</span>
 			</div>
 		</div>
 	</body>

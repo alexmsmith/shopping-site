@@ -40,13 +40,15 @@ if (isset($_SESSION['username'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<!-- Used for the internal data and time -->
+		<script src="time.js"></script>
 		<style>
 			/* Place Grid Layout in external style sheet */
 			<!-- Grid Layout -->
 			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
 			.item2 { grid-area: menu; margin-top: 24px; }
 			.item3 { grid-area: main; }
-			.item4 { grid-area: footer; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
+			.item4 { grid-area: footer; }
 
 			.grid-container {
 				display: grid;
@@ -107,77 +109,23 @@ if (isset($_SESSION['username'])) {
 		      }
 				}
 		</style>
-		<!-- Add date/time script to external JS script -->
-		<script type="text/javascript">
-		//Basic clock
-			function ampm() {
-				var now = new Date();
-				var hours = now.getHours();
-
-				if(hours > 12) {
-					return "pm";
-				}else {
-					return "am";
-				}
-			}
-			// If hours, minutes or seconds hits 0, change to 00
-			function secondsZero() {
-				var now = new Date();
-				var seconds = now.getSeconds();
-				if(seconds < 10){
-					return '0'+seconds;
-				}else {
-					return seconds;
-				}
-			}
-			function hoursZero() {
-				var now = new Date();
-				var hours = now.getHours();
-				if(hours < 10){
-					return '0'+hours;
-				}else {
-					return hours;
-				}
-			}
-			function minutesZero() {
-				var now = new Date();
-				var minutes = now.getMinutes();
-				if(minutes < 10){
-					return '0'+minutes;
-				}else {
-					return minutes;
-				}
-			}
-			function days() {
-				var now = new Date();
-				var day = now.getDate();
-				if(day < 10) {
-					return '0'+day;
-				}else {
-					return day;
-				}
-			}
-			function months() {
-				var now = new Date();
-				var month = now.getMonth();
-				if(month < 10) {
-					return '0'+(month+1);
-				}else {
-					return month;
-				}
-			}
-			function printTime() {
-				//Grabs current date/time
-				var now = new Date();
-				var day = now.getDate();
-				var month = now.getMonth();
-				var year = now.getFullYear();
-				//Format data
-				document.getElementById("time").innerHTML = days() + "/" + months() + "/" + year + " - " +
-															hoursZero() + ":" + minutesZero() + ":" + secondsZero() + " " + ampm();
-			}
-			setInterval("printTime()");
-			setInterval("printTime()", 1000);
+		<script>
+			/*	Search bar functionality	*/
+				// Load the document before the script executes
+				$(document).ready(function(){
+					// Keyup action on input box
+					$('#search').keyup(function(){
+						// Name is equal to the value of the input box
+						var name = $('#search').val();
+						// POST method (target: 'suggestions.php')
+						$.post('suggestions.php', {
+							// Suggestion is posted to 'suggestions.php'
+							suggestion: name
+						}, function(data, status) {
+							$('#searchResults').html(data);
+						});
+					});
+				});
 		</script>
 	</head>
 	<body>
@@ -198,22 +146,27 @@ if (isset($_SESSION['username'])) {
         	<li id="menuItem" style="font-size: 13px;"><a href="about.php">About</a></li>
 					<li id="menuItem" style="font-size: 13px; "><a href="contact.php">Contact <span class="glyphicon glyphicon-envelope"></span></a></li>
       	</ul>
+				<!-- Product search bar -->
+				<input id="search" type="text" name="search" placeholder="Search for a product.."/>
+				<!-- Displays the search result(s) -->
+				<div id="searchDiv">
+					<p id="searchResults"></p>
+				</div>
 				<ul class="nav navbar-nav navbar-right">
 					<li id="menuItem" style="font-size: 13px;"><a href="calculate.php">Calculator</a></li>
 					<li id="menuItem" style="font-size: 13px;"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
 					<a href="basket.php"><span class="glyphicon glyphicon-shopping-cart" style="font-size: 28px; margin-top: 10px; margin-left: 5px;"></span></a>
 					<!--<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>-->
+					<!-- Basket counter -->
 					<div class="basket_counter">
 						<?php
-							// Convert to string
 							if(isset($_SESSION['username'])) {
-								$b = implode("",$_SESSION['cart']);
-								$_SESSION['counter'] = $b;
-								//echo strlen($_SESSION['counter']);
-								?><span class="label" style="padding:2px; margin-left: -12px; font-size: 16px;"><?php echo strlen($_SESSION['counter']); ?></span>
+								$basket = implode("",$_SESSION['cart']);
+								$_SESSION['counter'] = $basket;
+								?><span class="label" style="padding:2px; margin-left: -12px; font-size: 14px;"><?php echo strlen($_SESSION['counter']); ?></span>
 								<?php
 							}
-						?>
+								?>
 					</div>
 					<div id="welcome" style="float: right; margin-left: 16px;">
 						<!-- Logged in user information -->
@@ -231,16 +184,13 @@ if (isset($_SESSION['username'])) {
 	<div class="grid-container">
 		</br>
 			<div class="item2" style="margin-top: 50px;">
-				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
+				<!-- Displays current date and time, updating every second
+				<!--<p id="time" style="font-family: Cambria; color: #5d6470;"></p>-->
 				<img src="../images/circuit_board_logo.png" alt="logo" id="logo">
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i>
-					<form style="float: right;">
-						<input id="search" type="text" name="search" placeholder="Search.."/>
-					</form>
-				</h1>
+				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i></h1>
 			</div>
 
-			<div class="item3">
+			<div class="item3" style="z-index: -1;">
 					<!-- https://www.w3schools.com/bootstrap/bootstrap_carousel.asp -->
   				<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin: auto; margin-top: 20px; width: 60%;">
     				<!-- Indicators -->
@@ -278,8 +228,8 @@ if (isset($_SESSION['username'])) {
 					<p></p>
 				</div>
 			</div>
-			<div class="item4">
-				Footer
+			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
+				<p>Footer</p>
 			</div>
 		</div>
 	</body>
