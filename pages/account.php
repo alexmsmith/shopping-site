@@ -14,7 +14,7 @@ include_once 'includes/template.php';
 			.item1 { grid-area: header; }
 			.item2 { grid-area: menu; }
 			.item3 { grid-area: main; }
-			.item4 { grid-area: footer; }
+			.item4 { grid-area: footer; padding-top: 5px; }
 
 			.grid-container {
 				display: grid;
@@ -86,7 +86,7 @@ include_once 'includes/template.php';
 				</div>
 			</div>
 			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
-				<p>Footer</p>
+				<p style="text-align: left; padding-left: 10px;">The-Tech-Store - &copy <?php echo date('Y'); ?></p>
 			</div>
 		</div>
 	</body>

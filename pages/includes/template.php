@@ -1,3 +1,25 @@
+<?php
+  $connectReg = mysqli_connect('localhost', 'root', '', 'registration');
+  // We need to retrieve 'item_ids' from database of the specified username
+  if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+    $basket = array();
+    $quer = "SELECT * FROM users WHERE username='$username'";
+    $result = mysqli_query($connectReg, $quer);
+    if(mysqli_num_rows($result) > 0) {
+      while($row = mysqli_fetch_array($result)) {
+        $ids = $row['item_ids'];
+        // Split 'item_ids' to individual ids representing each product
+        $ids_split = str_split($ids, 1);
+        // Foreach, push to array
+        foreach ($ids_split as $key => $value) {
+          array_push($basket, $value);
+        }
+        $_SESSION['cart'] = $basket;
+      }
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -95,11 +117,13 @@
 				<!--<p id="time" style="font-family: Cambria; color: #5d6470;"></p>-->
 				<img src="../images/circuit_board_logo.png" alt="logo" id="logo" />
 				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i></h1>
-				<ul class="sub-menu">
-					<a href=""><li class="sub-menu-item">Special Bargins!</medium></li></a>
-					<a href=""><li class="sub-menu-item">Christmas Sale</medium></li></a>
-					<a href=""><li class="sub-menu-item">Other</medium></li></a>
-				</ul>
+        <div class="divSubMenu">
+  				<ul>
+  					<a href=""><li class="sub-menu-item">Special Bargins!</medium></li></a>
+  					<a href=""><li class="sub-menu-item">Christmas Sale</medium></li></a>
+  					<a href=""><li class="sub-menu-item">Other</medium></li></a>
+  				</ul>
+        </div>
 			</div>
 		</div>
   </body>

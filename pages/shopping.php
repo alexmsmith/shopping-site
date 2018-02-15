@@ -1,8 +1,6 @@
 <?php
 // Include a session initialisation for the user
 include_once 'includes/session.php';
-// Template includes menu,submenu, title, logo and jQuery script
-include_once 'includes/template.php';
 // Connect to both the shopping and registration databases
 $connect = mysqli_connect('localhost', 'root', '', 'shopping');
 $connectReg = mysqli_connect('localhost', 'root', '', 'registration');
@@ -85,6 +83,10 @@ if(isset($_GET['removeAll'])) {
 	}
 }
 ?>
+<?php
+// Template includes menu,submenu, title, logo and jQuery script
+include_once 'includes/template.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -95,7 +97,7 @@ if(isset($_GET['removeAll'])) {
 			.item1 { grid-area: header; }
 			.item2 { grid-area: menu; }
 			.item3 { grid-area: main; }
-			.item4 { grid-area: footer; }
+			.item4 { grid-area: footer; padding-top: 5px; }
 			.grid-container {
 				display: grid;
 				grid:
@@ -274,6 +276,7 @@ if(isset($_GET['removeAll'])) {
 				<br />
 			</div>
 			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
+				<p style="text-align: left; padding-left: 10px;">The-Tech-Store - &copy <?php echo date('Y'); ?></p>
 				<!-- Bootstrap pagination -->
 					<span class="pagination">
 						<li><a href="">Previous</a></li>
@@ -283,7 +286,7 @@ if(isset($_GET['removeAll'])) {
 						<li class="disabled"><a href="">4</a></li>
 						<li class="disabled"><a href="">5</a></li>
 						<li><a href="">Next</a></li>
-						</span>
+					</span>
 			</div>
 		</div>
 	</body>

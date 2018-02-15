@@ -1,23 +1,19 @@
-<?php include('server.php'); ?>
+<?php
+	include('server.php');
+	// Template includes menu, submenu, title, logo, and jQuery script
+	include_once 'includes/template.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<title>The-Tech-Store/Login</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="../css.css">
-		<!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<style>
 			/* Place Grid Layout in external style sheet */
 			<!-- Grid Layout -->
-			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
-			.item2 { grid-area: menu; margin-top: 24px; }
+			.item1 { grid-area: header; }
+			.item2 { grid-area: menu; }
 			.item3 { grid-area: main; }
-			.item4 { grid-area: footer; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
+			.item4 { grid-area: footer; padding-top: 5px; }
 
 			.grid-container {
 				display: grid;
@@ -33,22 +29,20 @@
 				#container {
 					border-radius: 4px;
 					margin: auto;
-					background-color: rgba(213,222,239,0.6);
-					/*width: 1730px;*/
-					height: 1200px;
+					height: 1000px;
 					padding-top: 20px;
 				}
 				#logForm {
 					width: 19%;
 					text-align: center;
 					padding-top: 20px;
-					border: 3px solid rgba(73, 86, 107, 0.2);
+					border: 2px solid rgba(73, 86, 107, 0.1);
 					border-radius: 6px;
-					margin-left: 60px;
+					margin-left: 280px;
 				}
 				.text-box {
-					width: 1300px;
-					margin-left: 400px;
+					width: 600px;
+					margin-left: 570px;
 					margin-top: -280px;
 				}
 				/* Media query (Iphone 7 & 8 Plus)*/
@@ -56,7 +50,6 @@
 					#container {
 						border-radius: 4px;
 		        margin: auto;
-		        background-color: rgba(213,222,239,0.6); border-radius: 4px;
 		        width: 414px;
 					}
 					#heading-three {
@@ -113,132 +106,10 @@
 					}
 				}
 		</style>
-		<!-- Add date/time script to external JS script -->
-		<script type="text/javascript">
-		//Basic clock
-			function ampm() {
-				var now = new Date();
-				var hours = now.getHours();
-
-				if(hours > 12) {
-					return "pm";
-				}else {
-					return "am";
-				}
-			}
-			// If hours, minutes or seconds hits 0, change to 00
-			function secondsZero() {
-				var now = new Date();
-				var seconds = now.getSeconds();
-				if(seconds < 10){
-					return '0'+seconds;
-				}else {
-					return seconds;
-				}
-			}
-			function hoursZero() {
-				var now = new Date();
-				var hours = now.getHours();
-				if(hours < 10){
-					return '0'+hours;
-				}else {
-					return hours;
-				}
-			}
-			function minutesZero() {
-				var now = new Date();
-				var minutes = now.getMinutes();
-				if(minutes < 10){
-					return '0'+minutes;
-				}else {
-					return minutes;
-				}
-			}
-			function days() {
-				var now = new Date();
-				var day = now.getDate();
-				if(day < 10) {
-					return '0'+day;
-				}else {
-					return day;
-				}
-			}
-			function months() {
-				var now = new Date();
-				var month = now.getMonth();
-				if(month < 10) {
-					return '0'+(month+1);
-				}else {
-					return month;
-				}
-			}
-			function printTime() {
-				//Grabs current date/time
-				var now = new Date();
-				var day = now.getDate();
-				var month = now.getMonth();
-				var year = now.getFullYear();
-				//Format data
-				document.getElementById("time").innerHTML = days() + "/" + months() + "/" + year + " - " +
-															hoursZero() + ":" + minutesZero() + ":" + secondsZero() + " " + ampm();
-			}
-			setInterval("printTime()");
-			setInterval("printTime()", 1000);
-		</script>
 	</head>
 	<body>
-		<div class="container-fluid">
-			<nav class="navbar navbar-inverse" style="position: fixed; left: 0px; width: 100%; background-color: black; opacity: 0.8;
-				border: none; border-top-left-radius: 0px; border-top-right-radius: 0px;">
-    	<div class="navbar-header">
-      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        	<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-      	</button>
-    	</div>
-    	<div class="collapse navbar-collapse" id="myNavbar">
-      	<ul class="nav navbar-nav">
-        	<li id="listHome"><a href="home.php">Home</a></li>
-        	<li id="menuItem"><a href="shopping.php">Shopping</a></li>
-        	<li id="menuItem"><a href="about.php">About</a></li>
-					<li id="menuItem"><a href="contact.php">Contact</a></li>
-      	</ul>
-      	<ul class="nav navbar-nav navbar-right">
-					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
-					<li id="menuItem" class="active"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
-					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
-					<div class="basket_counter">
-						<?php
-							if(isset($_SESSION['username'])) {
-								echo strlen($_SESSION['counter']);
-							}
-						?>
-					</div>
-					<div id="welcome" style="float: right;">
-						<!-- Logged in user information -->
-						<?php if (isset($_SESSION['username'])) : ?>
-								<p>
-									Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
-									<b><a href="home.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
-								</p>
-						<?php endif ?>
-					</div>
-      	</ul>
-    	</div>
-  	</div>
-	</nav>
 	<div class="grid-container">
 		</br>
-			<div class="item2" style="margin-top: 50px;">
-				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
-				<img src="../images/circuit_board_logo.png" alt="logo" id="logo">
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i>
-					<form style="float: right;">
-						<input id="search" type="text" name="search" placeholder="Search.."/>
-					</form>
-				</h1>
-			</div>
 			<div class="item3">
 				<div id="container">
 					<form method="post" action="login.php" id="logForm">
@@ -257,34 +128,20 @@
 					</form>
 					<div class="text-box">
 						<p id="text-info">
-						<strong>Example Text:</strong> phpMyAdmin is a free software tool written in PHP,
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						phpMyAdmin is a free software tool written in PHP,
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
-						intended to handle the administration of MySQL over the Web. phpMyAdmin
-						supports a wide range of operations on MySQL and MariaDB. Frequently used
-						operations (managing databases, tables, columns, relations, indexes, users,
-						permissions, etc) can be performed via the user interface, while you still
-						have the ability to directly execute any SQL statement.
+						Please Sign Into Your Account To Access User Privileges.
+						If You're Not Already A Member, You Can Sign Up To Create
+						A New Account With Us. It's Free To Start A Shopping Spree!
+						<br><br>
+						<strong>Benefits Of Becoming A Member:</strong><br>
+						<b>1.</b> Gain 10 Free Tokens!<br>
+						<b>2.</b> User Preferences<br>
+						<b>3.</b> Receive Special Offers
 						</p>
 					</div>
 				</div>
 			</div>
-			<div class="item4">
-				Footer
+			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
+				<p style="text-align: left; padding-left: 10px;">The-Tech-Store - &copy <?php echo date('Y'); ?></p>
 			</div>
 		</div>
 	</body>

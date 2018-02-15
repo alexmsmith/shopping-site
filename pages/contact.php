@@ -1,25 +1,20 @@
 <?php
+// Includes a session initialisation for the user
 include_once 'includes/session.php';
+// Template includes menu,submenu, title, logo and jQuery script
+include_once 'includes/template.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<title>The-Tech-Store/Contact</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="../css.css">
-		<!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<style>
 			/* Place Grid Layout in external style sheet */
 			 Grid Layout
-			.item1 { grid-area: header; background-color: #d5deef; border-radius: 2px; }
-			.item2 { grid-area: menu; margin-top: 24px; }
+			.item1 { grid-area: header; }
+			.item2 { grid-area: menu; }
 			.item3 { grid-area: main; }
-			.item4 { grid-area: footer; background-color: rgba(213,222,239,0.6); border-radius: 4px; }
+			.item4 { grid-area: footer; padding-top: 5px; }
 
 			.grid-container {
 				display: grid;
@@ -32,23 +27,16 @@ include_once 'includes/session.php';
 					margin-top: -10px;
 					text-align: center;
 				}
-				#container {
-					padding-top: 20px;
-					border-radius: 4px;
-					margin: auto;
-					background-color: rgba(213,222,239,0.6);
-					/*width: 1730px;*/
-					height: 1200px;
-				}
-				#contactTable {
-					width: 488px;
+				form {
+					width: 400px;
 					height: 500px;
 					margin: auto;
-					background-color: rgba(73, 86, 107, 0.2);
+					border: 2px solid rgba(73, 86, 107, 0.1);
 					border-radius: 6px;
 				}
-				#contactTable td {
-					padding-left: 4px;
+				td {
+					padding: 4px;
+
 				}
 				/* Media query (Iphone 7 & 8 Plus)*/
 				@media screen and (max-width: 414px){
@@ -109,139 +97,17 @@ include_once 'includes/session.php';
 		      }
 				}
 		</style>
-		<!-- Add date/time script to external JS script -->
-		<script type="text/javascript">
-		//Basic clock
-			function ampm() {
-				var now = new Date();
-				var hours = now.getHours();
-
-				if(hours > 12) {
-					return "pm";
-				}else {
-					return "am";
-				}
-			}
-			// If hours, minutes or seconds hits 0, change to 00
-			function secondsZero() {
-				var now = new Date();
-				var seconds = now.getSeconds();
-				if(seconds < 10){
-					return '0'+seconds;
-				}else {
-					return seconds;
-				}
-			}
-			function hoursZero() {
-				var now = new Date();
-				var hours = now.getHours();
-				if(hours < 10){
-					return '0'+hours;
-				}else {
-					return hours;
-				}
-			}
-			function minutesZero() {
-				var now = new Date();
-				var minutes = now.getMinutes();
-				if(minutes < 10){
-					return '0'+minutes;
-				}else {
-					return minutes;
-				}
-			}
-			function days() {
-				var now = new Date();
-				var day = now.getDate();
-				if(day < 10) {
-					return '0'+day;
-				}else {
-					return day;
-				}
-			}
-			function months() {
-				var now = new Date();
-				var month = now.getMonth();
-				if(month < 10) {
-					return '0'+(month+1);
-				}else {
-					return month;
-				}
-			}
-			function printTime() {
-				//Grabs current date/time
-				var now = new Date();
-				var day = now.getDate();
-				var month = now.getMonth();
-				var year = now.getFullYear();
-				//Format data
-				document.getElementById("time").innerHTML = days() + "/" + months() + "/" + year + " - " +
-															hoursZero() + ":" + minutesZero() + ":" + secondsZero() + " " + ampm();
-			}
-			setInterval("printTime()");
-			setInterval("printTime()", 1000);
-		</script>
 	</head>
 	<body>
-		<div class="container-fluid">
-			<nav class="navbar navbar-inverse" style="position: fixed; left: 0px; width: 100%; background-color: black; opacity: 0.8;
-				border: none; border-top-left-radius: 0px; border-top-right-radius: 0px;">
-    	<div class="navbar-header">
-      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        	<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-        	<span class="icon-bar"></span>
-      	</button>
-    	</div>
-    	<div class="collapse navbar-collapse" id="myNavbar">
-      	<ul class="nav navbar-nav">
-        	<li id="listHome"><a href="home.php">Home</a></li>
-        	<li id="menuItem"><a href="shopping.php">Shopping</a></li>
-        	<li id="menuItem"><a href="about.php">About</a></li>
-					<li id="menuItem" class="active"><a href="contact.php">Contact</a></li>
-      	</ul>
-      	<ul class="nav navbar-nav navbar-right">
-					<li id="menuItem"><a href="calculate.php">Calculator</a></li>
-					<li id="menuItem"><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login / Register</a></li>
-					<a href="basket.php"><img id="shop_cart" src="../cart.png" alt="shopping_cart"></a>
-					<div class="basket_counter">
-						<?php
-							if(isset($_SESSION['username'])) {
-								echo strlen($_SESSION['counter']);
-							}
-						?>
-					</div>
-					<div id="welcome" style="float: right;">
-						<!-- Logged in user information -->
-						<?php if (isset($_SESSION['username'])) : ?>
-								<p>
-									Welcome <strong><?php echo $_SESSION['username']; ?>!</strong>
-									<b><a href="home.php?logout='1'" style="color: red; text-decoration: none;">Logout?</a></b>
-								</p>
-						<?php endif ?>
-					</div>
-      	</ul>
-    	</div>
-  	</div>
-	</nav>
 	<div class="grid-container">
 		</br>
-			<div class="item2" style="margin-top: 50px;">
-				<p id="time" style="font-family: Cambria; color: #5d6470;"></p>
-				<img src="../images/circuit_board_logo.png" alt="logo" id="logo">
-				<h1 id="heading-one"><i><strong>The-Tech-Store</strong><span style="font-size: 24px;">.co.uk</span></i>
-					<form style="float: right;">
-						<input id="search" type="text" name="search" placeholder="Search.."/>
-					</form>
-				</h1>
-			</div>
 			<div class="item3">
            <div id="container">
 						 <h2 id="heading-two" style="margin-top: 0px;">Contact-Us</h3>
 						 	<p id="text-info" style="color: black;">If you would like to contact us regarding a query, please
 							 use the following options below:
 							</p>
-							<p id="text-info" style="color: black;"><strong>Contact Number:</strong> (+44) (0)7478277969</p>
+							<p id="text-info" style="color: black;"><strong>Contact Number:</strong> (+44) (0)7578267919</p>
 
 							<p id="text-info" style="color: black;"><strong>Drop us an e-mail:</strong></p>
 
@@ -249,48 +115,38 @@ include_once 'includes/session.php';
  					 		<form name="contactform" method="post" action="send_form_email.php">
  								<table id="contactTable">
  									<tr>
- 	 									<td>
-											<label for="first_name" id="text-info">First Name :</label>
- 	 									</td>
 										<td>
 											<input type="text" name="first_name" maxlength="50" size="30"
-												style="float: left; margin-left: 8px; border-radius: 4px;">
+												style="float: left; margin-left: 66px; padding-left: 2px; border-radius: 4px;"
+												placeholder="First Name">
 										</td>
  									</tr>
  									<tr>
- 	 									<td>
-											<label for="last_name" id="text-info">Last Name :</label>
- 	 									</td>
 										<td>
 											<input type="text" name="last_name" maxlength="50" size="30"
-												style="float: left; margin-left: 8px; border-radius: 4px;">
+												style="float: left; margin-left: 66px; padding-left: 2px; border-radius: 4px;"
+												placeholder="Last Name">
 										</td>
  									</tr>
  									<tr>
- 	 									<td>
-											<label for="email" id="text-info">Email Address :</label>
- 	 									</td>
 										<td>
 											<input type="text" name="email" maxlength="80" size="30"
-												style="float: left; margin-left: 8px; border-radius: 4px;">
+												style="float: left; margin-left: 66px; padding-left: 2px; border-radius: 4px;"
+												placeholder="Email Address">
 										</td>
  									</tr>
  									<tr>
- 	 									<td>
-											<label for="telephone" id="text-info">Telephone Number :</label>
- 	 									</td>
 										<td>
 											<input type="text" name="telephone" maxlength="30" size="30"
-												style="float: left; margin-left: 8px; border-radius: 4px;">
+												style="float: left; margin-left: 66px; padding-left: 2px; border-radius: 4px;"
+												placeholder="Telephone Number">
 										</td>
  									</tr>
  									<tr>
- 	 									<td>
-											<label for="comments" id="text-info">Comments :</label>
- 	 									</td>
 										<td>
 											<textarea name="comments" maxlength="1000" cols="45" rows="15"
-												style="resize: none ; border-radius: 4px;"></textarea>
+												style="resize: none ; margin-left: 20px; border-radius: 4px; padding-left: 2px;"
+												placeholder="Enter Message Here..."></textarea>
 										</td>
  									</tr>
  									<tr>
@@ -303,8 +159,8 @@ include_once 'includes/session.php';
            </div>
           <br />
 			</div>
-			<div class="item4">
-				Footer
+			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
+				<p style="text-align: left; padding-left: 10px;">The-Tech-Store - &copy <?php echo date('Y'); ?></p>
 			</div>
 		</div>
 	</body>

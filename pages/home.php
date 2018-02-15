@@ -1,14 +1,15 @@
 <?php
 // Includes a session initialisation for the user
 include_once 'includes/session.php';
-// Template includes menu,submenu, title, logo and jQuery script
-include_once 'includes/template.php';
 // Logout
 if (isset($_GET['logout'])) {
 		session_destroy();
 		unset($_SESSION['username']);
 		header('location: home.php');
 }
+// Template includes menu, submenu, title, logo and jQuery script
+include_once 'includes/template.php';
+
 $connectReg = mysqli_connect('localhost', 'root', '', 'registration');
 // We need to retrieve 'item_ids' from database of the specified username
 if (isset($_SESSION['username'])) {
@@ -40,7 +41,7 @@ if (isset($_SESSION['username'])) {
 			.item1 { grid-area: header; }
 			.item2 { grid-area: menu; }
 			.item3 { grid-area: main; }
-			.item4 { grid-area: footer; }
+			.item4 { grid-area: footer; padding-top: 5px; }
 
 			.grid-container {
 				display: grid;
@@ -144,7 +145,7 @@ if (isset($_SESSION['username'])) {
 				</div>
 			</div>
 			<div class="item4" style="background-color: rgba(121, 167, 247, 0.4);">
-				<p>Footer</p>
+				<p style="text-align: left; padding-left: 10px;">The-Tech-Store - &copy <?php echo date('Y'); ?></p>
 			</div>
 		</div>
 	</body>
