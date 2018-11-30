@@ -1,4 +1,4 @@
-# shopping-site
+# eCommerce Website
 eCommerce Website which heavly relies on PHP and SQL to enable client->Server interactions (Login/Register, Shopping-Basket).
 Technologies:
   - Front-end:
